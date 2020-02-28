@@ -2,11 +2,20 @@
 
 ## Database
 
+### Setup
+
+Run the following script:
+
+```sh
+sh drop-create.sh
+```
+
 ### Tables
 
 - Users
 - Students
 - Classes
+- Spots
 
 ### Relationships
 
