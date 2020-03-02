@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const classRoutes = require('./routes/class')
 const userRoutes = require('./routes/user')
 const app = express()
 const port = 3001
@@ -9,6 +10,8 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.get('/', (req, res) => res.send('Hello World!'))
+
+app.post('/class', classRoutes.addClass)
 
 app.post('/user', userRoutes.addUser)
 app.get('/users', userRoutes.getAllUsers)
