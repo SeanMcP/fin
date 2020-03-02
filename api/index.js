@@ -1,7 +1,12 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const userRoutes = require('./routes/user')
 const app = express()
 const port = 3001
+
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
