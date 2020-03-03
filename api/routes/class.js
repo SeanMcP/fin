@@ -6,12 +6,25 @@ function addClass(req, res) {
             console.log(response)
             res.send('Success')
         })
-        .catch(err => {
-            console.log(err)
+        .catch(error => {
+            console.log(error)
+            res.send('Error')
+        })
+}
+
+function getAllClasses(req, res) {
+    db.query('SELECT * from classes')
+        .then(response => {
+            console.log(response)
+            res.send('Success')
+        })
+        .catch(error => {
+            console.log(error)
             res.send('Error')
         })
 }
 
 module.exports = {
-    addClass
+    addClass,
+    getAllClasses
 }
