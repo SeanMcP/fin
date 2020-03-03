@@ -24,7 +24,20 @@ function getAllClasses(req, res) {
         })
 }
 
+function getClassById(req, res) {
+    db.query(`SELECT * FROM classes WHERE id = ${req.params.id}`)
+        .then(response => {
+            console.log(response)
+            res.send('Success')
+        })
+        .catch(error => {
+            console.log(error)
+            res.send('Error')
+        })
+}
+
 module.exports = {
     addClass,
-    getAllClasses
+    getAllClasses,
+    getClassById
 }

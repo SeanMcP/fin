@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.post('/class', classRoutes.addClass)
+app.get('/class/:id', classRoutes.getClassById)
 app.get('/classes', classRoutes.getAllClasses)
 
 app.post('/user', userRoutes.addUser)
