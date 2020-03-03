@@ -13,7 +13,7 @@ function addClass(req, res) {
 }
 
 function getAllClasses(req, res) {
-    db.query('SELECT * from classes')
+    db.query('SELECT * FROM classes')
         .then(response => {
             console.log(response)
             res.send('Success')

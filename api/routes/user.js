@@ -13,7 +13,7 @@ function addUser (req, res) {
 }
 
 function getAllUsers (req, res) {
-    db.query('SELECT * from users')
+    db.query('SELECT * FROM users')
         .then(response => {
             console.log(response)
             res.send('Success')
