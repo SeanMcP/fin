@@ -16,6 +16,7 @@ app.get('/class/:id', classRoutes.getClassById)
 app.get('/classes', classRoutes.getAllClasses)
 
 app.post('/user', userRoutes.addUser)
+app.post('/user/:id', userRoutes.updateUser)
 app.get('/users', userRoutes.getAllUsers)
 
 app.listen(port, () => console.log(`API listening on port ${port}!`))
