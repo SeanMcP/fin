@@ -1,7 +1,7 @@
 const db = require('../db')
 
 function addUser (req, res) {
-    db.query('INSERT INTO users (name) VALUES (\'Test\')')
+    db.query(`INSERT INTO users (name) VALUES (${req.body.name})`)
         .then(response => {
             console.log(response)
             res.send('Success')
