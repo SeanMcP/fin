@@ -36,8 +36,21 @@ function getClassById(req, res) {
         })
 }
 
+function updateClassById(req, res) {
+    db.query(`UPDATE classes SET name = '${req.body.name}' WHERE id = ${req.params.id}`)
+        .then(response => {
+            console.log(response)
+            res.send('Success')
+        })
+        .catch(error => {
+            console.log(error)
+            res.send('Error')
+        })
+}
+
 module.exports = {
     addClass,
     getAllClasses,
-    getClassById
+    getClassById,
+    updateClassById,
 }
