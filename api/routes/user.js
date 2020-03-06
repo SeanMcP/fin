@@ -24,7 +24,7 @@ function getAllUsers (req, res) {
         })
 }
 
-function updateUser(req, res) {
+function updateUserById(req, res) {
     db.query(`UPDATE users SET name = '${req.body.name}' WHERE id = ${req.params.id}`)
         .then(response => {
             console.log(response)
@@ -39,5 +39,5 @@ function updateUser(req, res) {
 module.exports = {
     addUser,
     getAllUsers,
-    updateUser
+    updateUserById
 }
