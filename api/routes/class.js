@@ -16,11 +16,10 @@ function getAllClasses(req, res) {
     db.query('SELECT * FROM classes')
         .then(response => {
             console.log(response)
-            res.send('Success')
+            res.status(200).send({ data: response.rows })
         })
         .catch(error => {
-            console.log(error)
-            res.send('Error')
+            res.status(404).send({ error, title: 'Unable to retrieve data' })
         })
 }
 
