@@ -14,6 +14,7 @@ app.get('/', (req, res) => res.send('Hello World!'))
 app.post('/class', classRoutes.addClass)
 app.get('/class/:id', classRoutes.getClassById)
 app.post('/class/:id', classRoutes.updateClassById)
+app.delete('/class/:id', classRoutes.deleteClassById)
 app.get('/classes', classRoutes.getAllClasses)
 
 app.post('/user', userRoutes.addUser)

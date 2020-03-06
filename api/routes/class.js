@@ -48,8 +48,21 @@ function updateClassById(req, res) {
         })
 }
 
+function deleteClassById(req, res) {
+    db.query(`DELETE classes WHERE id = ${req.params.id}`)
+        .then(response => {
+            console.log(response)
+            res.send('Success')
+        })
+        .catch(error => {
+            console.log(error)
+            res.send('Error')
+        })
+}
+
 module.exports = {
     addClass,
+    deleteClassById,
     getAllClasses,
     getClassById,
     updateClassById,
