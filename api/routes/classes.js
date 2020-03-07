@@ -1,6 +1,6 @@
 const db = require('../db')
 
-function addClass(req, res) {
+function add(req, res) {
     db.query(`INSERT INTO classes (name, user_id) VALUES ('${req.body.name}', ${req.body.user_id})`)
         .then(response => {
             console.log(response)
@@ -12,7 +12,7 @@ function addClass(req, res) {
         })
 }
 
-function getAllClasses(req, res) {
+function getAll(req, res) {
     db.query('SELECT * FROM classes')
         .then(response => {
             console.log(response)
@@ -23,7 +23,7 @@ function getAllClasses(req, res) {
         })
 }
 
-function getAllClassesByUserId(req, res) {
+function getAllByUserId(req, res) {
     db.query(`SELECT * FROM classes WHERE user_id = ${req.params.userId}`)
         .then(response => {
             res.send({data: response.rows})
@@ -33,7 +33,7 @@ function getAllClassesByUserId(req, res) {
         })
 }
 
-function getClassById(req, res) {
+function getById(req, res) {
     db.query(`SELECT * FROM classes WHERE id = ${req.params.id}`)
         .then(response => {
             res.send({ data: response.rows })
@@ -44,7 +44,7 @@ function getClassById(req, res) {
         })
 }
 
-function updateClassById(req, res) {
+function updateById(req, res) {
     db.query(`UPDATE classes SET name = '${req.body.name}' WHERE id = ${req.params.id}`)
         .then(response => {
             console.log(response)
@@ -56,7 +56,7 @@ function updateClassById(req, res) {
         })
 }
 
-function deleteClassById(req, res) {
+function deleteById(req, res) {
     db.query(`DELETE classes WHERE id = ${req.params.id}`)
         .then(response => {
             console.log(response)
@@ -69,10 +69,10 @@ function deleteClassById(req, res) {
 }
 
 module.exports = {
-    addClass,
-    deleteClassById,
-    getAllClasses,
-    getAllClassesByUserId,
-    getClassById,
-    updateClassById,
+    add,
+    deleteById,
+    getAll,
+    getAllByUserId,
+    getById,
+    updateById,
 }

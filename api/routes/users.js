@@ -1,6 +1,6 @@
 const db = require('../db')
 
-function addUser (req, res) {
+function add (req, res) {
     db.query(`INSERT INTO users (name) VALUES (${req.body.name})`)
         .then(response => {
             console.log(response)
@@ -12,7 +12,7 @@ function addUser (req, res) {
         })
 }
 
-function getAllUsers (req, res) {
+function getAll (req, res) {
     db.query('SELECT * FROM users')
         .then(response => {
             console.log(response)
@@ -24,7 +24,7 @@ function getAllUsers (req, res) {
         })
 }
 
-function updateUserById(req, res) {
+function updateById(req, res) {
     db.query(`UPDATE users SET name = '${req.body.name}' WHERE id = ${req.params.id}`)
         .then(response => {
             console.log(response)
@@ -37,7 +37,7 @@ function updateUserById(req, res) {
 }
 
 module.exports = {
-    addUser,
-    getAllUsers,
-    updateUserById
+    add,
+    getAll,
+    updateById
 }
