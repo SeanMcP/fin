@@ -23,6 +23,16 @@ function getAllClasses(req, res) {
         })
 }
 
+function getAllClassesByUserId(req, res) {
+    db.query(`SELECT * FROM classes WHERE user_id = ${req.params.userId}`)
+        .then(response => {
+            res.send({data: response.rows})
+        })
+        .catch(error => {
+            res.send({ error })
+        })
+}
+
 function getClassById(req, res) {
     db.query(`SELECT * FROM classes WHERE id = ${req.params.id}`)
         .then(response => {
@@ -62,6 +72,7 @@ module.exports = {
     addClass,
     deleteClassById,
     getAllClasses,
+    getAllClassesByUserId,
     getClassById,
     updateClassById,
 }
