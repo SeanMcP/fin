@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const classes = require('./routes/classes')
+const spots = require('./routes/spots')
 const students = require('./routes/students')
 const users = require('./routes/users')
 
@@ -20,6 +21,13 @@ app.post('/class/:id', classes.updateById)
 app.delete('/class/:id', classes.deleteById)
 app.get('/classes', classes.getAll)
 app.get('/classes/:userId', classes.getAllByUserId)
+
+app.post('/spot', spots.addStudentToClass)
+app.get('/spots/class/:id', spots.getByClassId)
+app.get('/spots/student/:id', spots.getByStudentId)
+app.delete('/spots/class/:classId', spots.removeClass)
+app.delete('/spots/student/:studentId', spots.removeStudentFromAll)
+app.delete('/spots/student/:studentId/class/:classId', spots.removeStudentFromClass)
 
 app.post('/student', students.add)
 app.get('/student/:id', students.getById)
