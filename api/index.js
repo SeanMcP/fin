@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
+const auth = require('./routes/auth')
 const classes = require('./routes/classes')
 const spots = require('./routes/spots')
 const students = require('./routes/students')
@@ -39,5 +40,7 @@ app.get('/students/:userId', students.getAllByUserId)
 app.get('/users', users.getAll)
 app.post('/user', users.add)
 app.post('/user/:id', users.updateById)
+
+app.post('/register', auth.register)
 
 app.listen(port, () => console.log(`API listening on port ${port}!`))
