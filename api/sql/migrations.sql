@@ -1,3 +1,2 @@
 ALTER TABLE users
-ADD COLUMN email TEXT,
-ADD COLUMN password TEXT;
+ADD COLUMN nonce TEXT;

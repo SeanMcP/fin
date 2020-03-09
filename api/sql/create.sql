@@ -2,8 +2,11 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     email TEXT,
     name TEXT,
+    nonce TEXT,
     password TEXT
 );
+
+
 
 CREATE TABLE classes (
     id SERIAL PRIMARY KEY,
