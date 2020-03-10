@@ -16,7 +16,7 @@ function login(req, res) {
             const [user] = response.rows
             if (user) {
                 if (getHash(req.body.password, user.nonce) === user.password) {
-                    res.send({ success: true })
+                    return res.send({ success: true })
                 }
             }
             throw 'That username or password does not match'
