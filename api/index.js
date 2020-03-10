@@ -41,6 +41,7 @@ app.get('/users', users.getAll)
 app.post('/user', users.add)
 app.post('/user/:id', users.updateById)
 
+app.post('/login', auth.login)
 app.post('/register', auth.register)
 
 app.listen(port, () => console.log(`API listening on port ${port}!`))
