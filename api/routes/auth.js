@@ -1,4 +1,5 @@
 const crypto = require('crypto')
+const jwt = require('jsonwebtoken')
 const db = require('../db')
 
 const iterations = 100000
@@ -10,12 +11,23 @@ function getHash(password, nonce) {
     return crypto.pbkdf2Sync(password, nonce, iterations, keyLength, digest).toString(stringType)
 }
 
+const jwtKey = 'keep_it_secret_keep_it_safe'
+const jwtExpiresInSeconds = 600 // Ten minutes in seconds
+const jwtMaxAge = jwtExpiresInSeconds * 1000 // In milliseconds
+
+function getToken(payload) {
+    return jwt.sign(payload, jwtKey, { algorithm: 'HS256', expiresIn: jwtExpiresInSeconds })
+}
+
 function login(req, res) {
     db.query(`SELECT email, nonce, password FROM users WHERE email = '${req.body.email}'`)
         .then(response => {
             const [user] = response.rows
             if (user) {
                 if (getHash(req.body.password, user.nonce) === user.password) {
+                    const token = getToken({ email: req.body.email })
+
+                    res.cookie('token', token, { maxAge: jwtMaxAge })
                     return res.send({ success: true })
                 }
             }
