@@ -23,13 +23,11 @@ function login(req, res) {
     db.query(`SELECT email, nonce, password FROM users WHERE email = '${req.body.email}'`)
         .then(response => {
             const [user] = response.rows
-            if (user) {
-                if (getHash(req.body.password, user.nonce) === user.password) {
-                    const token = getToken({ email: req.body.email })
+            if (user && getHash(req.body.password, user.nonce) === user.password) {
+                const token = getToken({ email: req.body.email })
 
-                    res.cookie('token', token, { maxAge: jwtMaxAge })
-                    return res.send({ success: true })
-                }
+                res.cookie('token', token, { maxAge: jwtMaxAge })
+                return res.send({ success: true })
             }
             throw 'That username or password does not match'
         })
