@@ -36,6 +36,30 @@ function login(req, res) {
         })
 }
 
+function refresh(req, res) {
+    // 400: Bad request; 401: Unauthorized
+    const { token } = req.cookie
+
+    if (!token) return res.status(401)
+
+    let payload
+    try {
+        payload = jwt.verify(token, jwtKey)
+    } catch (error) {
+        return res.status(
+            error instanceof jwt.JsonWebTokenError ? 401 : 400
+        )
+    }
+
+    const nowUnixSeconds = Math.round(Number(new Date()) / 1000)
+    if (payload.exp - nowUnixSeconds > 30) {
+        return res.status(400)
+    }
+
+    res.cookie('token', getToken({ email: payload.email }), { maxAge: jwtMaxAge })
+    res.end()
+}
+
 function register(req, res) {
     const salt = crypto.randomBytes(128).toString('base64')
     const hash = getHash(req.body.password, salt)
@@ -51,5 +75,6 @@ function register(req, res) {
 
 module.exports = {
     login,
+    refresh,
     register,
 }
