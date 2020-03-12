@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const jwtMiddleware = require('express-jwt')
 
 const auth = require('./routes/auth')
 const classes = require('./routes/classes')
@@ -13,6 +14,9 @@ const port = 3001
 app.use(bodyParser.urlencoded({
     extended: false
 }))
+
+// TODO: Figure out where to store secret
+app.use(jwtMiddleware({ secret: 'keep_it_secret_keep_it_safe' }).unless({ path: ['/', '/login'] }))
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
