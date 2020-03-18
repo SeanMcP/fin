@@ -1,7 +1,7 @@
 const db = require('../db')
 
 function addStudentToClass(req, res) {
-    db.query(`INSERT INTO spots (class_id, student_id) VALUES (${req.body.classId}, ${req.body.studentId})`)
+    db.query(`INSERT INTO seats (class_id, student_id) VALUES (${req.body.classId}, ${req.body.studentId})`)
         .then(response => {
             res.send({ response, success: true })
         })
@@ -13,9 +13,9 @@ function addStudentToClass(req, res) {
 function getByClassId(req, res) {
     db.query(`
         SELECT name, student_id, user_id
-        FROM spots
+        FROM seats
         FULL JOIN students
-        ON spots.student_id = students.id
+        ON seats.student_id = students.id
         WHERE class_id = ${req.params.id}
     `)
         .then(response => {
@@ -29,9 +29,9 @@ function getByClassId(req, res) {
 function getByStudentId(req, res) {
     db.query(`
         SELECT class_id, name, user_id
-        FROM spots
+        FROM seats
         FULL JOIN classes
-        ON spots.class_id = classes.id
+        ON seats.class_id = classes.id
         WHERE student_id = ${req.params.id}
     `)
         .then(response => {
@@ -43,7 +43,7 @@ function getByStudentId(req, res) {
 }
 
 function removeClass(req, res) {
-    db.query(`DELETE spots WHERE class_id = ${req.params.classId}`)
+    db.query(`DELETE seats WHERE class_id = ${req.params.classId}`)
         .then(response => {
             res.send({ response, success: true })
         })
@@ -53,7 +53,7 @@ function removeClass(req, res) {
 }
 
 function removeStudentFromAll(req, res) {
-    db.query(`DELETE spots WHERE student_id = ${req.params.studentId}`)
+    db.query(`DELETE seats WHERE student_id = ${req.params.studentId}`)
         .then(response => {
             res.send({ response, success: true })
         })
@@ -63,7 +63,7 @@ function removeStudentFromAll(req, res) {
 }
 
 function removeStudentFromClass(req, res) {
-    db.query(`DELETE spots WHERE class_id = ${req.params.classId} AND student_id = ${req.params.studentId}`)
+    db.query(`DELETE seats WHERE class_id = ${req.params.classId} AND student_id = ${req.params.studentId}`)
         .then(response => {
             res.send({ response, success: true })
         })

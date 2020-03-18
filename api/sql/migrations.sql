@@ -1,2 +1,2 @@
-ALTER TABLE users
-ADD COLUMN nonce TEXT;
+ALTER TABLE spots
+RENAME TO seats;

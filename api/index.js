@@ -4,7 +4,7 @@ const jwtMiddleware = require('express-jwt')
 
 const auth = require('./routes/auth')
 const classes = require('./routes/classes')
-const spots = require('./routes/spots')
+const seats = require('./routes/seats')
 const students = require('./routes/students')
 const users = require('./routes/users')
 
@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
 }))
 
 // TODO: Figure out where to store secret
-app.use(jwtMiddleware({ secret: 'keep_it_secret_keep_it_safe' }).unless({ path: ['/', '/login'] }))
+// app.use(jwtMiddleware({ secret: 'keep_it_secret_keep_it_safe' }).unless({ path: ['/', '/login'] }))
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
@@ -27,12 +27,12 @@ app.delete('/class/:id', classes.deleteById)
 app.get('/classes', classes.getAll)
 app.get('/classes/:userId', classes.getAllByUserId)
 
-app.post('/spot', spots.addStudentToClass)
-app.get('/spots/class/:id', spots.getByClassId)
-app.get('/spots/student/:id', spots.getByStudentId)
-app.delete('/spots/class/:classId', spots.removeClass)
-app.delete('/spots/student/:studentId', spots.removeStudentFromAll)
-app.delete('/spots/student/:studentId/class/:classId', spots.removeStudentFromClass)
+app.post('/seat', seats.addStudentToClass)
+app.get('/seats/class/:id', seats.getByClassId)
+app.get('/seats/student/:id', seats.getByStudentId)
+app.delete('/seats/class/:classId', seats.removeClass)
+app.delete('/seats/student/:studentId', seats.removeStudentFromAll)
+app.delete('/seats/student/:studentId/class/:classId', seats.removeStudentFromClass)
 
 app.post('/student', students.add)
 app.get('/student/:id', students.getById)
