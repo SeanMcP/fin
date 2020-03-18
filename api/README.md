@@ -23,3 +23,4 @@ sh drop-create.sh
 - A user has many classes
 - A student has many classes
 - A class has many students
+- A seat associates a student with a class
