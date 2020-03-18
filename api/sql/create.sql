@@ -6,8 +6,6 @@ CREATE TABLE users (
     password TEXT
 );
 
-
-
 CREATE TABLE classes (
     id SERIAL PRIMARY KEY,
     name TEXT,
@@ -20,7 +18,7 @@ CREATE TABLE students (
     user_id INTEGER REFERENCES users(id)
 );
 
-CREATE TABLE spots (
+CREATE TABLE seats (
     class_id INTEGER REFERENCES classes(id),
     student_id INTEGER REFERENCES students(id)
 );

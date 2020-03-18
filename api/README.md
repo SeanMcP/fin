@@ -15,7 +15,7 @@ sh drop-create.sh
 - Users
 - Students
 - Classes
-- Spots
+- Seats
 
 ### Relationships
 
