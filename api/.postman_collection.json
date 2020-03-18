@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "3df68250-0501-49cc-ade0-bcf20c996d67",
+		"name": "Fin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "e@ma.il",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3001/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/classes - Get all classes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/classes",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"classes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/class/:id - Get class by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAbWEuaWwiLCJpYXQiOjE1ODQwMDk0MjYsImV4cCI6MTU4NDAxMDAyNn0.VAHdaLMKPu39buaYAbtq1lIGykko8fdcimf8uu4-XT0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3001/class/3",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"class",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/seat - Add student to class",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "classId",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "studentId",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3001/seat",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"seat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/seats/class/:id - Get all students by class id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/spots/class/3",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"spots",
+						"class",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/seats/student/:id - Get all classes by student id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/spots/student/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"spots",
+						"student",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/student - Add a student",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "user_id",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "EF",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3001/student",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"student"
+					]
+				},
+				"description": "Add a student"
+			},
+			"response": []
+		},
+		{
+			"name": "/students - Get all students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/students",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/users - Get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
