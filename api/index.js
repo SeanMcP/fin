@@ -8,6 +8,8 @@ const seats = require('./routes/seats')
 const students = require('./routes/students')
 const users = require('./routes/users')
 
+const db = require('./db')
+
 const app = express()
 const port = 3001
 
@@ -16,9 +18,17 @@ app.use(bodyParser.urlencoded({
 }))
 
 // TODO: Figure out where to store secret
-// app.use(jwtMiddleware({ secret: 'keep_it_secret_keep_it_safe' }).unless({ path: ['/', '/login'] }))
+// app.use(jwtMiddleware({ secret: 'keep_it_secret_keep_it_safe' }).unless({ path: ['/', '/health', '/login'] }))
 
 app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/health', async (req, res) => {
+    let status = 'Up'
+
+    // Test Postgres connection
+    await db.connect().catch(() => status = 'Down')
+
+    res.send({ status })
+})
 
 app.post('/class', classes.add)
 app.get('/class/:id', classes.getById)

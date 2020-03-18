@@ -7,5 +7,6 @@ const pool = new Pool({
 })
 
 module.exports = {
+    connect: (...args) => pool.connect(...args),
     query: (...args) => pool.query(...args)
 }
