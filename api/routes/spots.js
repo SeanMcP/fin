@@ -11,7 +11,13 @@ function addStudentToClass(req, res) {
 }
 
 function getByClassId(req, res) {
-    db.query(`SELECT * FROM spots WHERE class_id = ${req.params.id}`)
+    db.query(`
+        SELECT name, student_id, user_id
+        FROM spots
+        FULL JOIN students
+        ON spots.student_id = students.id
+        WHERE class_id = ${req.params.id}
+    `)
         .then(response => {
             res.send({ data: response.rows })
         })
@@ -21,7 +27,13 @@ function getByClassId(req, res) {
 }
 
 function getByStudentId(req, res) {
-    db.query(`SELECT * FROM spots WHERE student_id = ${req.params.id}`)
+    db.query(`
+        SELECT class_id, name, user_id
+        FROM spots
+        FULL JOIN classes
+        ON spots.class_id = classes.id
+        WHERE student_id = ${req.params.id}
+    `)
         .then(response => {
             res.send({ data: response.rows })
         })
