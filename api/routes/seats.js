@@ -14,7 +14,7 @@ function getByClassId(req, res) {
     db.query(`
         SELECT name, student_id, user_id
         FROM seats
-        FULL JOIN students
+        JOIN students
         ON seats.student_id = students.id
         WHERE class_id = ${req.params.id}
     `)
@@ -30,7 +30,7 @@ function getByStudentId(req, res) {
     db.query(`
         SELECT class_id, name, user_id
         FROM seats
-        FULL JOIN classes
+        JOIN classes
         ON seats.class_id = classes.id
         WHERE student_id = ${req.params.id}
     `)
