@@ -52,6 +52,7 @@ app.get('/students', students.getAll)
 app.get('/students/:userId', students.getAllByUserId)
 
 app.get('/users', users.getAll)
+app.delete('/user/:id', users.deleteById)
 app.post('/user/:id', users.updateById)
 
 app.post('/login', auth.login)

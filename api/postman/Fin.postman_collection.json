@@ -238,6 +238,25 @@
             "response": []
         },
         {
+            "name": "Delete user by id",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "localhost:3001/user/1",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "3001",
+                    "path": [
+                        "user",
+                        "1"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
             "name": "/users - Get all users",
             "request": {
                 "method": "GET",

@@ -1,5 +1,15 @@
 const db = require('../db')
 
+function deleteById(req, res) {
+    db.query(`DELETE users WHERE id = ${req.params.id}`)
+        .then(response => {
+            res.send({ response, success: true })
+        })
+        .catch(error => {
+            res.send({ error })
+        })
+}
+
 function getAll(req, res) {
     db.query('SELECT * FROM users')
         .then(response => {
@@ -21,6 +31,7 @@ function updateById(req, res) {
 }
 
 module.exports = {
+    deleteById,
     getAll,
     updateById
 }
