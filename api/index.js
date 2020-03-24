@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const jwtMiddleware = require('express-jwt')
+const cors = require('cors')
 
 const auth = require('./routes/auth')
 const classes = require('./routes/classes')
@@ -15,6 +16,11 @@ const port = 3001
 
 app.use(bodyParser.urlencoded({
     extended: false
+}))
+
+// TODO: Use environment variables
+app.use(cors({
+    origin: 'http://localhost:3000'
 }))
 
 // TODO: Figure out where to store secret
