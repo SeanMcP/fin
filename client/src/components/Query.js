@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 
 function Query(props) {
     const { status, data, error } = useQuery(props.id, () =>
-        fetch(props.route)
+        fetch(props.route).then(response => response.json())
     )
 
     if (status === 'loading') {
