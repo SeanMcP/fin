@@ -1,6 +1,7 @@
 import React from 'react'
 import ScreenLayout from '../components/ScreenLayout'
 import Query from '../components/Query'
+import Login from '../components/Login'
 
 function Home() {
     return (
@@ -17,6 +18,8 @@ function Home() {
                 </div>
                 <button>Register</button>
             </form>
+            <hr />
+            <Login />
         </ScreenLayout>
     )
 }
