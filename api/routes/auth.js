@@ -20,19 +20,24 @@ function getToken(payload) {
 }
 
 function login(req, res) {
+    const { email, password } = req.body
+
+    // If email or password is not provided, send "Bad Request"
+    if (!email || !password) res.status(400).send({ error: 'Email and password are required.' })
+
     db.query(`SELECT email, nonce, password FROM users WHERE email = '${req.body.email}'`)
         .then(response => {
             const [user] = response.rows
-            if (user && getHash(req.body.password, user.nonce) === user.password) {
-                const token = getToken({ email: req.body.email })
+            if (user && getHash(password, user.nonce) === user.password) {
+                const token = getToken({ email })
 
                 res.cookie('token', token, { maxAge: jwtMaxAge })
                 return res.send({ success: true })
             }
-            throw 'That username or password does not match'
+            throw 'That email and/or password does not match.'
         })
         .catch(error => {
-            res.send({ error })
+            res.status(404).send({ error })
         })
 }
 
