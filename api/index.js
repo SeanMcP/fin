@@ -1,7 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const jwtMiddleware = require('express-jwt')
+// const jwtMiddleware = require('express-jwt')
 const cors = require('cors')
+
+const loggingMiddleware = require('./logging/middleware')
 
 const auth = require('./routes/auth')
 const classes = require('./routes/classes')
@@ -17,6 +19,9 @@ const port = 3001
 app.use(bodyParser.urlencoded({
     extended: false
 }))
+
+app.use(loggingMiddleware.console)
+app.use(loggingMiddleware.write)
 
 // TODO: Use environment variables
 app.use(cors({
