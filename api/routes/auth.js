@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const db = require('../db')
+const logger = require('../logging/logger')
 
 const iterations = 100000
 const keyLength = 64
@@ -20,25 +21,33 @@ function getToken(payload) {
 }
 
 function login(req, res) {
-    const { email, password } = req.body
+    let status = 200
+    try {
+        const { email, password } = req.body
 
-    // If email or password is not provided, send "Bad Request"
-    if (!email || !password) res.status(400).send({ error: 'Email and password are required.' })
+        // If email or password is not provided, send "Bad Request"
+        if (!email || !password) {
+            status = 400
+            throw 'Email and password are required.'
+        }
 
-    db.query(`SELECT email, nonce, password FROM users WHERE email = '${req.body.email}'`)
-        .then(response => {
-            const [user] = response.rows
-            if (user && getHash(password, user.nonce) === user.password) {
-                const token = getToken({ email })
+        db.query(`SELECT email, nonce, password FROM users WHERE email = '${req.body.email}'`)
+            .then(response => {
+                const [user] = response.rows
+                if (user && getHash(password, user.nonce) === user.password) {
+                    const token = getToken({ email })
 
-                res.cookie('token', token, { maxAge: jwtMaxAge })
-                return res.send({ success: true })
-            }
-            throw 'That email and/or password does not match.'
-        })
-        .catch(error => {
-            res.status(404).send({ error })
-        })
+                    res.cookie('token', token, { maxAge: jwtMaxAge })
+                    return res.status(status).send({ success: true })
+                }
+                status = 404
+                throw 'That email and/or password does not match.'
+            })
+
+    } catch (error) {
+        logger.error('auth > login()', error)
+        return res.status(status).send({ error })
+    }
 }
 
 function refresh(req, res) {
