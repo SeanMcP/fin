@@ -1,7 +1,7 @@
 const db = require('../db')
 
 function add(req, res) {
-    db.query(`INSERT INTO students (name, user_id) VALUES ('${req.body.name}', ${req.body.user_id})`)
+    db.query(`INSERT INTO students (name, user_id) VALUES ('${req.body.name}', ${req.body.userId})`)
         .then(response => {
             console.log(response)
             res.send({ success: true })

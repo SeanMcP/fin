@@ -16,9 +16,7 @@ const db = require('./db')
 const app = express()
 const port = 3001
 
-app.use(bodyParser.urlencoded({
-    extended: false
-}))
+app.use(bodyParser.json())
 
 app.use(loggingMiddleware.console)
 app.use(loggingMiddleware.write)

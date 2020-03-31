@@ -13,24 +13,18 @@
                     {
                         "key": "Content-Type",
                         "name": "Content-Type",
-                        "value": "application/x-www-form-urlencoded",
+                        "value": "application/json",
                         "type": "text"
                     }
                 ],
                 "body": {
-                    "mode": "urlencoded",
-                    "urlencoded": [
-                        {
-                            "key": "email",
-                            "value": "e@ma.il",
-                            "type": "text"
-                        },
-                        {
-                            "key": "password",
-                            "value": "password",
-                            "type": "text"
+                    "mode": "raw",
+                    "raw": "{\n\t\"email\": \"chuck@testa.com\",\n\t\"password\": \"nope\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
                         }
-                    ]
+                    }
                 },
                 "url": {
                     "raw": "localhost:3001/login",
@@ -107,23 +101,12 @@
                         "key": "Content-Type",
                         "name": "Content-Type",
                         "type": "text",
-                        "value": "application/x-www-form-urlencoded"
+                        "value": "application/json"
                     }
                 ],
                 "body": {
-                    "mode": "urlencoded",
-                    "urlencoded": [
-                        {
-                            "key": "classId",
-                            "value": "3",
-                            "type": "text"
-                        },
-                        {
-                            "key": "studentId",
-                            "value": "2",
-                            "type": "text"
-                        }
-                    ]
+                    "mode": "raw",
+                    "raw": "{\n\t\"classId\": 1,\n\t\"studentId\": 1\n}"
                 },
                 "url": {
                     "raw": "localhost:3001/seat",
@@ -186,24 +169,13 @@
                     {
                         "key": "Content-Type",
                         "name": "Content-Type",
-                        "value": "application/x-www-form-urlencoded",
+                        "value": "application/json",
                         "type": "text"
                     }
                 ],
                 "body": {
-                    "mode": "urlencoded",
-                    "urlencoded": [
-                        {
-                            "key": "user_id",
-                            "value": "2",
-                            "type": "text"
-                        },
-                        {
-                            "key": "name",
-                            "value": "EF",
-                            "type": "text"
-                        }
-                    ]
+                    "mode": "raw",
+                    "raw": "{\n\t\"userId\": 1,\n\t\"name\": \"Chuckie Testa\"\n}"
                 },
                 "url": {
                     "raw": "localhost:3001/student",
@@ -291,7 +263,56 @@
                 },
                 "description": "Returns with status \"Up\" or \"Down\""
             },
-            "response": []
+            "response": [
+                {
+                    "name": "/health - Checks server status",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "localhost:3001/health",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3001",
+                            "path": [
+                                "health"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "X-Powered-By",
+                            "value": "Express"
+                        },
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json; charset=utf-8"
+                        },
+                        {
+                            "key": "Content-Length",
+                            "value": "15"
+                        },
+                        {
+                            "key": "ETag",
+                            "value": "W/\"f-zRJ6m+xgZy5XVpA8z2N1fiG32Ro\""
+                        },
+                        {
+                            "key": "Date",
+                            "value": "Wed, 18 Mar 2020 10:33:49 GMT"
+                        },
+                        {
+                            "key": "Connection",
+                            "value": "keep-alive"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n    \"status\": \"Up\"\n}"
+                }
+            ]
         }
     ],
     "protocolProfileBehavior": {}

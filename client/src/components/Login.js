@@ -9,10 +9,10 @@ function Login() {
 
         const response = await fetch('http://localhost:3001/login', {
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/json'
             },
             method: 'POST',
-            body: `email=${email}&password=${password}`
+            body: JSON.stringify({ email, password })
         })
 
         // TODO: Navigate based on response status.
