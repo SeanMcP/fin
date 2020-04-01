@@ -31,7 +31,7 @@ function login(req, res) {
             throw 'Email and password are required.'
         }
 
-        db.query(`SELECT email, nonce, password FROM users WHERE email = '${req.body.email}'`)
+        db.query('SELECT email, nonce, password FROM users WHERE email = $1', [email])
             .then(response => {
                 const [user] = response.rows
                 if (user && getHash(password, user.nonce) === user.password) {
@@ -78,12 +78,13 @@ function register(req, res) {
     const salt = crypto.randomBytes(128).toString('base64')
     const hash = getHash(req.body.password, salt)
 
-    db.query(`INSERT INTO users (email, password, nonce) VALUES ('${req.body.email}', '${hash}', '${salt}')`)
-        .then(response => {
-            res.send({ response })
+    db.query('INSERT INTO users (email, password, nonce) VALUES ($1, $2, $3)', [req.body.email, hash, salt])
+        .then(() => {
+            res.send({ success: true })
         })
         .catch(error => {
-            res.send({ error })
+            logger.error('auth > register()', error)
+            res.send({ success: false, error })
         })
 }
 
