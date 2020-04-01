@@ -22,21 +22,23 @@ app.use(loggingMiddleware.console)
 app.use(loggingMiddleware.write)
 
 // TODO: Use environment variables
-app.use(cors({
-    origin: 'http://localhost:3000'
-}))
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+  }),
+)
 
 // TODO: Figure out where to store secret
 // app.use(jwtMiddleware({ secret: 'keep_it_secret_keep_it_safe' }).unless({ path: ['/', '/health', '/login'] }))
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/health', async (req, res) => {
-    let status = 'Up'
+  let status = 'Up'
 
-    // Test Postgres connection
-    await db.connect().catch(() => status = 'Down')
+  // Test Postgres connection
+  await db.connect().catch(() => (status = 'Down'))
 
-    res.send({ status })
+  res.send({ status })
 })
 
 app.post('/class', classes.add)
@@ -51,7 +53,10 @@ app.get('/seats/class/:id', seats.getByClassId)
 app.get('/seats/student/:id', seats.getByStudentId)
 app.delete('/seats/class/:classId', seats.removeClass)
 app.delete('/seats/student/:studentId', seats.removeStudentFromAll)
-app.delete('/seats/student/:studentId/class/:classId', seats.removeStudentFromClass)
+app.delete(
+  '/seats/student/:studentId/class/:classId',
+  seats.removeStudentFromClass,
+)
 
 app.post('/student', students.add)
 app.get('/student/:id', students.getById)
