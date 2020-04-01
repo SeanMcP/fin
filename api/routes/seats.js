@@ -1,7 +1,7 @@
 const db = require('../db')
 
 function addStudentToClass(req, res) {
-    db.query(`INSERT INTO seats (class_id, student_id) VALUES (${req.body.classId}, ${req.body.studentId})`)
+    db.query('INSERT INTO seats (class_id, student_id) VALUES ($1, $2)', [req.body.classId, req.body.studentId])
         .then(response => {
             res.send({ response, success: true })
         })
@@ -16,8 +16,8 @@ function getByClassId(req, res) {
         FROM seats
         JOIN students
         ON seats.student_id = students.id
-        WHERE class_id = ${req.params.id}
-    `)
+        WHERE class_id = $1
+    `, [req.params.id])
         .then(response => {
             res.send({ data: response.rows })
         })
@@ -32,8 +32,8 @@ function getByStudentId(req, res) {
         FROM seats
         JOIN classes
         ON seats.class_id = classes.id
-        WHERE student_id = ${req.params.id}
-    `)
+        WHERE student_id = $1
+    `, [req.params.id])
         .then(response => {
             res.send({ data: response.rows })
         })
@@ -43,7 +43,7 @@ function getByStudentId(req, res) {
 }
 
 function removeClass(req, res) {
-    db.query(`DELETE seats WHERE class_id = ${req.params.classId}`)
+    db.query('DELETE seats WHERE class_id = $1', [req.params.classId])
         .then(response => {
             res.send({ response, success: true })
         })
@@ -53,7 +53,7 @@ function removeClass(req, res) {
 }
 
 function removeStudentFromAll(req, res) {
-    db.query(`DELETE seats WHERE student_id = ${req.params.studentId}`)
+    db.query('DELETE seats WHERE student_id = $1', [req.params.studentId])
         .then(response => {
             res.send({ response, success: true })
         })
@@ -63,7 +63,7 @@ function removeStudentFromAll(req, res) {
 }
 
 function removeStudentFromClass(req, res) {
-    db.query(`DELETE seats WHERE class_id = ${req.params.classId} AND student_id = ${req.params.studentId}`)
+    db.query('DELETE seats WHERE class_id = $1 AND student_id = $2', [req.params.classId, req.params.studentId])
         .then(response => {
             res.send({ response, success: true })
         })
