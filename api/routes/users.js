@@ -1,7 +1,7 @@
 const db = require('../db')
 
 function deleteById(req, res) {
-    db.query(`DELETE users WHERE id = ${req.params.id}`)
+    db.query('DELETE users WHERE id = $1', [req.params.id])
         .then(response => {
             res.send({ response, success: true })
         })
@@ -21,7 +21,7 @@ function getAll(req, res) {
 }
 
 function updateById(req, res) {
-    db.query(`UPDATE users SET name = '${req.body.name}' WHERE id = ${req.params.id}`)
+    db.query('UPDATE users SET name = $1 WHERE id = $2', [req.body.name, req.params.id])
         .then(response => {
             res.send({ data: response })
         })
