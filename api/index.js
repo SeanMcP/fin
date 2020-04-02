@@ -21,11 +21,12 @@ app.use(bodyParser.json())
 app.use(loggingMiddleware.console)
 app.use(loggingMiddleware.write)
 
-// TODO: Use environment variables
 app.use(
-  cors({
-    origin: 'http://localhost:3000',
-  }),
+    cors({
+        credentials: true,
+        // TODO: Use environment variables
+        origin: 'http://localhost:3000',
+    }),
 )
 
 // TODO: Figure out where to store secret
@@ -33,12 +34,12 @@ app.use(
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/health', async (req, res) => {
-  let status = 'Up'
+    let status = 'Up'
 
-  // Test Postgres connection
-  await db.connect().catch(() => (status = 'Down'))
+    // Test Postgres connection
+    await db.connect().catch(() => (status = 'Down'))
 
-  res.send({ status })
+    res.send({ status })
 })
 
 app.post('/class', classes.add)
@@ -54,8 +55,8 @@ app.get('/seats/student/:id', seats.getByStudentId)
 app.delete('/seats/class/:classId', seats.removeClass)
 app.delete('/seats/student/:studentId', seats.removeStudentFromAll)
 app.delete(
-  '/seats/student/:studentId/class/:classId',
-  seats.removeStudentFromClass,
+    '/seats/student/:studentId/class/:classId',
+    seats.removeStudentFromClass,
 )
 
 app.post('/student', students.add)
