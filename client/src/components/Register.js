@@ -7,7 +7,7 @@ function Register() {
     async function handleSubmit(event) {
         event.preventDefault()
 
-        const response = await fetch('http://localhost:3031/register', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
