@@ -1,9 +1,11 @@
 import React from 'react'
 import { useQuery } from 'react-query'
 
-function Query(props) {
+const HOST = 'http://localhost:3031'
+
+function Query({ route, ...props }) {
     const { status, data, error } = useQuery(props.id, () =>
-        fetch(props.route).then(response => response.json())
+        fetch(`${HOST}/${route[0] === '/' ? route.slice(1) : route}`).then(response => response.json())
     )
 
     if (status === 'loading') {
