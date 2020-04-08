@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 // const jwtMiddleware = require('express-jwt')
@@ -14,7 +15,7 @@ const users = require('./routes/users')
 const db = require('./db')
 
 const app = express()
-const port = 3031
+const port = process.env.PORT || 3031
 
 app.use(bodyParser.json())
 
@@ -24,8 +25,7 @@ app.use(loggingMiddleware.write)
 app.use(
     cors({
         credentials: true,
-        // TODO: Use environment variables
-        origin: 'http://localhost:3030',
+        origin: process.env.CLIENT_URL,
     }),
 )
 
