@@ -7,7 +7,7 @@ function Dashboard() {
     return (
         <ScreenLayout title="Dashboard">
             Hello from <code>/dashboard</code>
-            <Query id="users" route="http://localhost:3001/users" />
+            <Query id="users" route="/users" />
             <Link to="/">Back to home</Link>
         </ScreenLayout>
     )

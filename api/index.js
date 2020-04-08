@@ -14,7 +14,7 @@ const users = require('./routes/users')
 const db = require('./db')
 
 const app = express()
-const port = 3001
+const port = 3031
 
 app.use(bodyParser.json())
 
@@ -25,7 +25,7 @@ app.use(
     cors({
         credentials: true,
         // TODO: Use environment variables
-        origin: 'http://localhost:3000',
+        origin: 'http://localhost:3030',
     }),
 )
 
