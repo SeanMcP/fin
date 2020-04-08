@@ -1,4 +1,5 @@
 const db = require('../db')
+const logger = require('../logging/logger')
 
 function deleteById(req, res) {
   db.query('DELETE users WHERE id = $1', [req.params.id])
@@ -16,6 +17,7 @@ function getAll(req, res) {
       res.send({ data: response.rows })
     })
     .catch((error) => {
+      logger.error('users > getAll()', error)
       res.send({ error })
     })
 }
@@ -29,6 +31,7 @@ function updateById(req, res) {
       res.send({ data: response })
     })
     .catch((error) => {
+      logger.error('users > updateById()', error)
       res.send({ error })
     })
 }
