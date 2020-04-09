@@ -1,8 +1,9 @@
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
-// const jwtMiddleware = require('express-jwt')
+const jwtMiddleware = require('express-jwt')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 
 const loggingMiddleware = require('./logging/middleware')
 
@@ -18,6 +19,7 @@ const app = express()
 const port = process.env.PORT || 3031
 
 app.use(bodyParser.json())
+app.use(cookieParser())
 
 app.use(loggingMiddleware.console)
 app.use(loggingMiddleware.write)
@@ -30,7 +32,13 @@ app.use(
 )
 
 // TODO: Figure out where to store secret
-// app.use(jwtMiddleware({ secret: 'keep_it_secret_keep_it_safe' }).unless({ path: ['/', '/health', '/login'] }))
+app.use(
+    jwtMiddleware({
+        getToken: (req) => req.cookies && req.cookies.token,
+        secret: 'keep_it_secret_keep_it_safe'
+    })
+        .unless({ path: ['/', '/health', '/login'] })
+)
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/health', async (req, res) => {
