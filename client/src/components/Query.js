@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 
 function Query({ route, ...props }) {
     const { status, data, error } = useQuery(props.id, () =>
-        fetch(`${process.env.REACT_APP_API_URL}/${route[0] === '/' ? route.slice(1) : route}`).then(response => response.json())
+        fetch(`${process.env.REACT_APP_API_URL}/${route[0] === '/' ? route.slice(1) : route}`, { credentials: 'include' }).then(response => response.json())
     )
 
     if (status === 'loading') {
