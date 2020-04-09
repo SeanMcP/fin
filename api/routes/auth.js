@@ -36,7 +36,7 @@ function login(req, res) {
       throw 'Email and password are required.'
     }
 
-    db.query('SELECT email, nonce, password FROM users WHERE email = $1', [
+    db.query('SELECT id, email, nonce, password FROM users WHERE email = $1', [
       email,
     ]).then((response) => {
       const [user] = response.rows
@@ -45,7 +45,7 @@ function login(req, res) {
 
         // TODO: Add `secure` option when off dev (HTTPS)
         res.cookie('token', token, { httpOnly: true, maxAge: jwtMaxAge })
-        return res.status(status).send({ success: true })
+        return res.status(status).send({ success: true, user: { id: user.id, email: user.email } })
       }
       status = 404
       throw 'That email and/or password does not match.'
