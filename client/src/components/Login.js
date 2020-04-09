@@ -1,9 +1,11 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+import { useAppContext } from '../store/AppContext'
 
 function Login() {
     const [email, setEmail] = React.useState('chuck@testa.com')
     const [password, setPassword] = React.useState('nope')
+    const [state, setState] = useAppContext()
     const history = useHistory()
 
     async function handleSubmit(event) {
@@ -19,6 +21,8 @@ function Login() {
         })
 
         if (response.ok) {
+            const res = await response.json()
+            setState({ ...state, user: res.user })
             history.push('/dashboard')
         }
     }
