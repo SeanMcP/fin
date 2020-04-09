@@ -43,7 +43,8 @@ function login(req, res) {
       if (user && getHash(password, user.nonce) === user.password) {
         const token = getToken({ email })
 
-        res.cookie('token', token, { maxAge: jwtMaxAge })
+        // TODO: Add `secure` option when off dev (HTTPS)
+        res.cookie('token', token, { httpOnly: true, maxAge: jwtMaxAge })
         return res.status(status).send({ success: true })
       }
       status = 404
