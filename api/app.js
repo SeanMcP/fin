@@ -62,7 +62,7 @@ app.delete('/user/:id', users.deleteById)
 app.post('/user/:id', users.updateById)
 
 app.post('/login', auth.login)
-app.post('/refresh', auth.refresh)
+app.get('/refresh', auth.refresh)
 app.post('/register', auth.register)
 
 app.listen(port, () => console.log(`API listening on port ${port}!`))

@@ -58,7 +58,7 @@ function login(req, res) {
 
 function refresh(req, res) {
   // 400: Bad request; 401: Unauthorized
-  const { token } = req.cookie
+  const { token } = req.cookies
 
   if (!token) return res.status(401)
 
@@ -75,7 +75,7 @@ function refresh(req, res) {
   }
 
   res.cookie('token', getToken({ email: payload.email }), { maxAge: jwtMaxAge })
-  res.end()
+  res.status(200).send({ authorized: true })
 }
 
 function register(req, res) {
