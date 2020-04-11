@@ -2,12 +2,12 @@
     "name": "fin-api",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "app.js",
     "scripts": {
         "format": "prettier --write \"**/*.js\" --config ../.prettierrc",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node index.js",
-        "start:dev": "nodemon index.js"
+        "start": "node app.js",
+        "start:dev": "nodemon app.js"
     },
     "keywords": [],
     "author": "",
