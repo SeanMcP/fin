@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Home from '../screens/Home'
 import Dashboard from '../screens/Dashboard'
+import AuthenticatedRoute from './AuthenticatedRoute'
 
 function Router() {
     return (
@@ -10,9 +11,9 @@ function Router() {
                 <Route exact path="/">
                     <Home />
                 </Route>
-                <Route exact path="/dashboard">
+                <AuthenticatedRoute exact path="/dashboard">
                     <Dashboard />
-                </Route>
+                </AuthenticatedRoute>
             </Switch>
         </BrowserRouter>
     )
