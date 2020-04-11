@@ -40,6 +40,8 @@ app.use(
         .unless({ path: ['/', '/health', '/login'] })
 )
 
+app.use(require('./middlewares/unauthorized-error'))
+
 app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/health', async (req, res) => {
     let status = 'Up'
