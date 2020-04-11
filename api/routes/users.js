@@ -1,5 +1,5 @@
 const db = require('../db')
-const logger = require('../logging/logger')
+const logger = require('../logger')
 
 function deleteById(req, res) {
   db.query('DELETE users WHERE id = $1', [req.params.id])

@@ -15,8 +15,8 @@ const port = process.env.PORT || 3031
 app.use(require('body-parser').json())
 app.use(require('cookie-parser')())
 
-app.use(require('./middlewares/console-log'))
-app.use(require('./middlewares/write-log'))
+app.use(require('./middlewares/log-console'))
+app.use(require('./middlewares/log-file'))
 
 app.use(require('./middlewares/cors'))
 

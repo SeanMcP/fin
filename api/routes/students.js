@@ -1,5 +1,5 @@
 const db = require('../db')
-const logger = require('../logging/logger')
+const logger = require('../logger')
 
 function add(req, res) {
   db.query('INSERT INTO students (name, user_id) VALUES ($1, $2)', [

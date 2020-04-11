@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const db = require('../db')
-const logger = require('../logging/logger')
+const logger = require('../logger')
 
 const iterations = 100000
 const keyLength = 64
