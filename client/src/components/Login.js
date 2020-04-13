@@ -1,11 +1,11 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { useAppContext } from '../store/AppContext'
+import { useAppContext, APP_ACTIONS } from '../store/AppContext'
 
 function Login() {
     const [email, setEmail] = React.useState('chuck@testa.com')
     const [password, setPassword] = React.useState('nope')
-    const [state, setState] = useAppContext()
+    const [, dispatch] = useAppContext()
     const history = useHistory()
 
     async function handleSubmit(event) {
@@ -22,7 +22,7 @@ function Login() {
 
         if (response.ok) {
             const res = await response.json()
-            setState({ ...state, user: res.user })
+            dispatch({ type: APP_ACTIONS.LOGIN, payload: { user: res.user } })
             history.push('/dashboard')
         }
     }
