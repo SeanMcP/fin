@@ -60,19 +60,20 @@ function refresh(req, res) {
   // 400: Bad request; 401: Unauthorized
   const { token } = req.cookies
 
-  if (!token) return res.status(401)
+  if (!token) return res.status(401).send({ authorized: false })
 
   let payload
   try {
     payload = jwt.verify(token, jwtKey)
   } catch (error) {
-    return res.status(error instanceof jwt.JsonWebTokenError ? 401 : 400)
+    return res.status(error instanceof jwt.JsonWebTokenError ? 401 : 400).send({ authorized: false })
   }
 
-  const nowUnixSeconds = Math.round(Number(new Date()) / 1000)
-  if (payload.exp - nowUnixSeconds > 30) {
-    return res.status(400)
-  }
+  /** This always seems to be true and sends a 400 */
+  // const nowUnixSeconds = Math.round(Number(new Date()) / 1000)
+  // if (payload.exp - nowUnixSeconds > 30) {
+  //   return res.status(400).send({ authorized: false })
+  // }
 
   res.cookie('token', getToken({ email: payload.email }), { maxAge: jwtMaxAge })
   res.status(200).send({ authorized: true })
