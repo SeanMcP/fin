@@ -13,7 +13,7 @@ function App() {
     }
 
     authCheck()
-  }, [])
+  }, [dispatch])
   return (
     <div className="App">
       <Router />
