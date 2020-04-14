@@ -7,7 +7,7 @@ const initialState = {
 
 export const APP_ACTIONS = {
     AUTHENTICATE: 'AUTHENTICATE',
-    LOGIN: 'LOGIN',
+    LOG_IN: 'LOG_IN',
     LOG_OUT: 'LOG_OUT'
 }
 
@@ -19,7 +19,7 @@ function reducer(state, { payload, type }) {
                 isAuthenticated: true
             }
         }
-        case 'LOGIN': {
+        case APP_ACTIONS.LOG_IN: {
             return {
                 ...state,
                 isAuthenticated: true,
