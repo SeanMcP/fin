@@ -1,7 +1,7 @@
 import React from 'react'
 import ScreenLayout from '../components/ScreenLayout'
 // import Query from '../components/Query's
-import Login from '../components/Login'
+import LogIn from '../components/LogIn'
 import Register from '../components/Register'
 import { Link } from 'react-router-dom'
 
@@ -16,7 +16,7 @@ function Home() {
             <hr />
             <Register />
             <hr />
-            <Login />
+            <LogIn />
         </ScreenLayout>
     )
 }
