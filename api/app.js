@@ -61,6 +61,7 @@ app.get('/users', users.getAll)
 app.delete('/user/:id', users.deleteById)
 app.post('/user/:id', users.updateById)
 
+app.get('/clear', auth.clear)
 app.post('/login', auth.login)
 app.get('/refresh', auth.refresh)
 app.post('/register', auth.register)

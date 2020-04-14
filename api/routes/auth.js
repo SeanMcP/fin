@@ -25,6 +25,14 @@ function getToken(payload) {
   })
 }
 
+function clear(req, res) {
+  const { token } = req.cookies
+
+  if (token) res.clearCookie('token', { httpOnly: true, maxAge: jwtMaxAge })
+
+  res.end()
+}
+
 function login(req, res) {
   let status = 200
   try {
@@ -98,6 +106,7 @@ function register(req, res) {
 }
 
 module.exports = {
+  clear,
   login,
   refresh,
   register,
