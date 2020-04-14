@@ -1,12 +1,13 @@
 import React from 'react';
 import Router from './Router';
 import { APP_ACTIONS, useAppContext } from '../store/AppContext';
+import request from '../utils/request';
 
 function App() {
   const [, dispatch] = useAppContext()
   React.useEffect(() => {
     async function authCheck() {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/refresh`, { credentials: 'include' })
+      const response = await request('refresh')
 
       if (response.ok) dispatch({ type: APP_ACTIONS.AUTHENTICATE })
     }

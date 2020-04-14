@@ -1,6 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAppContext, APP_ACTIONS } from '../store/AppContext'
+import request from '../utils/request'
 
 function LogIn() {
     const [email, setEmail] = React.useState('chuck@testa.com')
@@ -11,13 +12,8 @@ function LogIn() {
     async function handleSubmit(event) {
         event.preventDefault()
 
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({ email, password })
+        const response = await request('login', {
+            body: { email, password }
         })
 
         if (response.ok) {

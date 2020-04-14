@@ -1,4 +1,5 @@
 import React from 'react'
+import request from '../utils/request'
 
 function Register() {
     const [email, setEmail] = React.useState('chuck@testa.com')
@@ -7,13 +8,8 @@ function Register() {
     async function handleSubmit(event) {
         event.preventDefault()
 
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({ email, password })
+        const response = await request('register', {
+            body: { email, password }
         })
 
         if (response.ok) {
