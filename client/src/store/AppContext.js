@@ -6,7 +6,8 @@ const initialState = {
 }
 
 export const APP_ACTIONS = {
-    LOGIN: 'LOGIN'
+    LOGIN: 'LOGIN',
+    LOG_OUT: 'LOG_OUT'
 }
 
 function reducer(state, { payload, type }) {
@@ -17,6 +18,9 @@ function reducer(state, { payload, type }) {
                 isAuthenticated: true,
                 user: payload.user
             }
+        }
+        case APP_ACTIONS.LOG_OUT: {
+            return initialState
         }
         default: {
             return state
