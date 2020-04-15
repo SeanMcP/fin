@@ -66,7 +66,8 @@ function login(req, res) {
 
 function refresh(req, res) {
   // 400: Bad request; 401: Unauthorized
-  const { token } = req.cookies
+  const { body, cookies: { token } } = req
+  const responseBody = { authorized: false }
 
   if (!token) return res.status(401).send({ authorized: false })
 
@@ -74,8 +75,12 @@ function refresh(req, res) {
   try {
     payload = jwt.verify(token, jwtKey)
   } catch (error) {
-    return res.status(error instanceof jwt.JsonWebTokenError ? 401 : 400).send({ authorized: false })
+    return res.status(error instanceof jwt.JsonWebTokenError ? 401 : 400).send(responseBody)
   }
+
+  responseBody.authorized = true
+
+  if (body && body.include_user) responseBody.user = payload.user
 
   /** This always seems to be true and sends a 400 */
   // const nowUnixSeconds = Math.round(Number(new Date()) / 1000)
@@ -84,7 +89,7 @@ function refresh(req, res) {
   // }
 
   res.cookie('token', getToken({ user: payload.user }), { httpOnly: true, maxAge: jwtMaxAge })
-  res.status(200).send({ authorized: true })
+  res.status(200).send(responseBody)
 }
 
 function register(req, res) {
