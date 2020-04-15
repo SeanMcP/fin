@@ -49,11 +49,11 @@ function login(req, res) {
     ]).then((response) => {
       const [user] = response.rows
       if (user && getHash(password, user.nonce) === user.password) {
-        const token = getToken({ email })
+        const userToStore = { email: user.email, id: user.id }
 
         // TODO: Add `secure` option when off dev (HTTPS)
-        res.cookie('token', token, { httpOnly: true, maxAge: jwtMaxAge })
-        return res.status(status).send({ success: true, user: { id: user.id, email: user.email } })
+        res.cookie('token', getToken({ user: userToStore }), { httpOnly: true, maxAge: jwtMaxAge })
+        return res.status(status).send({ success: true, user: userToStore })
       }
       status = 404
       throw 'That email and/or password does not match.'
@@ -83,7 +83,7 @@ function refresh(req, res) {
   //   return res.status(400).send({ authorized: false })
   // }
 
-  res.cookie('token', getToken({ email: payload.email }), { httpOnly: true, maxAge: jwtMaxAge })
+  res.cookie('token', getToken({ user: payload.user }), { httpOnly: true, maxAge: jwtMaxAge })
   res.status(200).send({ authorized: true })
 }
 
