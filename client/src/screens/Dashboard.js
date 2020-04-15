@@ -6,12 +6,12 @@ import { useAppContext } from '../store/AppContext'
 import LogOut from '../components/LogOut'
 
 function Dashboard() {
-    const [state] = useAppContext()
+    const [{ user }] = useAppContext()
     return (
         <ScreenLayout title="Dashboard">
             Hello from <code>/dashboard</code>
-            <div>{JSON.stringify(state.user, null, 2)}</div>
-            <Query id="users" route="/users" />
+            <div>{JSON.stringify(user, null, 2)}</div>
+            <Query id="classes" route={`/classes/${user.id}`} />
             <Link to="/">Back to home</Link>
             <LogOut />
         </ScreenLayout>
