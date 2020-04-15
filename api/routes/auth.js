@@ -83,7 +83,7 @@ function refresh(req, res) {
   //   return res.status(400).send({ authorized: false })
   // }
 
-  res.cookie('token', getToken({ email: payload.email }), { maxAge: jwtMaxAge })
+  res.cookie('token', getToken({ email: payload.email }), { httpOnly: true, maxAge: jwtMaxAge })
   res.status(200).send({ authorized: true })
 }
 
