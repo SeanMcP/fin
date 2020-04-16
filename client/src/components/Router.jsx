@@ -1,7 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Home from '../screens/Home'
+import Class from '../screens/Class'
 import Dashboard from '../screens/Dashboard'
+import Home from '../screens/Home'
 import PrivateRoute from './PrivateRoute'
 
 function Router() {
@@ -11,6 +12,9 @@ function Router() {
                 <Route exact path="/">
                     <Home />
                 </Route>
+                <PrivateRoute exact path="/class/:id">
+                    <Class />
+                </PrivateRoute>
                 <PrivateRoute exact path="/dashboard">
                     <Dashboard />
                 </PrivateRoute>
