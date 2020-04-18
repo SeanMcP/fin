@@ -1,9 +1,10 @@
 import * as React from 'react'
-import ScreenLayout from '../components/ScreenLayout'
-import Query from '../components/Query'
 import { useParams } from 'react-router-dom'
+import AddStudent from '../components/AddStudent'
+import Query from '../components/Query'
+import ScreenLayout from '../components/ScreenLayout'
 
-function Class(props) {
+function Class() {
     const { id } = useParams()
     return (
         <ScreenLayout title="Class">
@@ -15,6 +16,8 @@ function Class(props) {
                     )
                 }}
             </Query>
+            <AddStudent classId={id} />
+            <Query id="students-in-this-class" route={`/seats/class/${id}`} />
         </ScreenLayout>
     )
 }
