@@ -13,7 +13,7 @@ function AddStudent({ classId }) {
         },
         async onSubmit({ name }) {
             const response = await request('student/class', {
-                body: { class_id: classId, name, user_id: user.id }
+                body: { classId, name, userId: user.id }
             })
 
             if (response.ok) {

@@ -25,14 +25,14 @@ function addInClass(req, res) {
     VALUES ($3, (SELECT student_id FROM insert_student))
     RETURNING (SELECT student_id FROM insert_student) AS id
     `,
-    [req.body.name, req.body.user_id, req.body.class_id]
+    [req.body.name, req.body.userId, req.body.classId]
   )
     .then((response) => {
       res.send({ student: response.rows[0], success: true })
     })
     .catch((error) => {
       logger.error('students > addInClass()', error)
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
