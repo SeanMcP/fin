@@ -15,6 +15,27 @@ function add(req, res) {
     })
 }
 
+function addInClass(req, res) {
+  db.query(`WITH insert_student AS (
+      INSERT INTO students (name, user_id)
+      VALUES ($1, $2)
+      RETURNING id AS student_id
+    )
+    INSERT INTO seats (class_id, student_id)
+    VALUES ($3, (SELECT student_id FROM insert_student))
+    RETURNING (SELECT student_id FROM insert_student) AS id
+    `,
+    [req.body.name, req.body.user_id, req.body.class_id]
+  )
+    .then((response) => {
+      res.send({ student: response.rows[0], success: true })
+    })
+    .catch((error) => {
+      logger.error('students > addInClass()', error)
+      res.send({ error })
+    })
+}
+
 function getAll(req, res) {
   db.query('SELECT * FROM students')
     .then((response) => {
@@ -75,6 +96,7 @@ function deleteById(req, res) {
 
 module.exports = {
   add,
+  addInClass,
   deleteById,
   getAll,
   getAllByUserId,

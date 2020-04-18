@@ -51,6 +51,7 @@ app.delete(
 )
 
 app.post('/student', students.add)
+app.post('/student/class', students.addInClass)
 app.get('/student/:id', students.getById)
 app.post('/student/:id', students.updateById)
 app.delete('/student/:id', students.deleteById)
