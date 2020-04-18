@@ -2,12 +2,12 @@ const db = require('../db')
 const logger = require('../logger')
 
 function add(req, res) {
-  db.query('INSERT INTO students (name, user_id) VALUES ($1, $2)', [
+  db.query('INSERT INTO students (name, user_id) VALUES ($1, $2) RETURNING id', [
     req.body.name,
-    req.body.userId,
+    req.body.user_id,
   ])
-    .then(() => {
-      res.send({ success: true })
+    .then((response) => {
+      res.send({ student: response.rows[0], success: true })
     })
     .catch((error) => {
       logger.error('students > add()', error)
