@@ -1,4 +1,5 @@
 const db = require('../db')
+const logger = require('../logger')
 
 function addStudentToClass(req, res) {
   db.query('INSERT INTO seats (class_id, student_id) VALUES ($1, $2)', [
@@ -52,7 +53,7 @@ function getByStudentId(req, res) {
 }
 
 function removeClass(req, res) {
-  db.query('DELETE seats WHERE class_id = $1', [req.params.classId])
+  db.query('DELETE FROM seats WHERE class_id = $1', [req.params.classId])
     .then((response) => {
       res.send({ response, success: true })
     })
@@ -62,7 +63,7 @@ function removeClass(req, res) {
 }
 
 function removeStudentFromAll(req, res) {
-  db.query('DELETE seats WHERE student_id = $1', [req.params.studentId])
+  db.query('DELETE FROM seats WHERE student_id = $1', [req.params.studentId])
     .then((response) => {
       res.send({ response, success: true })
     })
@@ -72,15 +73,16 @@ function removeStudentFromAll(req, res) {
 }
 
 function removeStudentFromClass(req, res) {
-  db.query('DELETE seats WHERE class_id = $1 AND student_id = $2', [
+  db.query('DELETE FROM seats WHERE class_id = $1 AND student_id = $2', [
     req.params.classId,
     req.params.studentId,
   ])
-    .then((response) => {
-      res.send({ response, success: true })
+    .then(() => {
+      res.send({ success: true })
     })
     .catch((error) => {
-      res.send({ error })
+      logger.error('seats > removeStudentFromClass()', error)
+      res.status(500).send({ error })
     })
 }
 
