@@ -2,8 +2,8 @@ const db = require('../db')
 
 function addStudentToClass(req, res) {
   db.query('INSERT INTO seats (class_id, student_id) VALUES ($1, $2)', [
-    req.body.classId,
-    req.body.studentId,
+    req.body.class_id,
+    req.body.student_id,
   ])
     .then((response) => {
       res.send({ response, success: true })
