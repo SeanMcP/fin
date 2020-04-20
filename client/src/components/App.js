@@ -1,22 +1,10 @@
 import React from 'react';
 import Router from './Router';
-import { APP_ACTIONS, useAppContext } from '../store/AppContext';
-import request from '../utils/request';
+import useAuthCheck from '../hooks/useAuthCheck';
 
 function App() {
-  const [, dispatch] = useAppContext()
-  React.useEffect(() => {
-    async function authCheck() {
-      const response = await request('refresh', { body: { includeUser: true } })
+  useAuthCheck()
 
-      if (response.ok) {
-        const json = await response.json()
-        dispatch({ type: APP_ACTIONS.LOG_IN, payload: json })
-      }
-    }
-
-    authCheck()
-  }, [dispatch])
   return (
     <div className="App">
       <Router />
