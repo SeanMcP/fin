@@ -14,7 +14,9 @@ function Query({ route, ...props }) {
         return typeof props.onError === 'function' ? props.onError(error) : <span>Uh oh! There was a problem loading.</span>
     }
 
-    return typeof props.children === 'function' ? props.children(data) : <span>Data: <pre>{JSON.stringify(data, null, 2)}</pre></span>
+    if (data) return typeof props.children === 'function' ? props.children(data) : <span>Data: <pre>{JSON.stringify(data, null, 2)}</pre></span>
+
+    return <span>Something went wrong</span>
 }
 
 export default Query
