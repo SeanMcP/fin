@@ -7,7 +7,7 @@ function App() {
   const [, dispatch] = useAppContext()
   React.useEffect(() => {
     async function authCheck() {
-      const response = await request('refresh', { body: { include_user: true } })
+      const response = await request('refresh', { body: { includeUser: true } })
 
       if (response.ok) {
         const json = await response.json()

@@ -80,7 +80,7 @@ function refresh(req, res) {
 
   responseBody.authorized = true
 
-  if (body && body.include_user) responseBody.user = payload.user
+  if (body && body.includeUser) responseBody.user = payload.user
 
   /** This always seems to be true and sends a 400 */
   // const nowUnixSeconds = Math.round(Number(new Date()) / 1000)
