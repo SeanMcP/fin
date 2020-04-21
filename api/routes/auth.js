@@ -33,7 +33,7 @@ function clear(req, res) {
   res.end()
 }
 
-function login(req, res) {
+async function login(req, res) {
   let status = 200
   try {
     const { email, password } = req.body
@@ -44,20 +44,19 @@ function login(req, res) {
       throw 'Email and password are required.'
     }
 
-    db.query('SELECT id, email, nonce, password FROM users WHERE email = $1', [
+    const response = await db.query('SELECT id, email, nonce, password, uuid FROM users WHERE email = $1', [
       email,
-    ]).then((response) => {
-      const [user] = response.rows
-      if (user && getHash(password, user.nonce) === user.password) {
-        const userToStore = { email: user.email, id: user.id }
+    ])
+    const [user] = response.rows
+    if (user && getHash(password, user.nonce) === user.password) {
+      const userToStore = { email: user.email, id: user.id, uuid: user.uuid }
 
-        // TODO: Add `secure` option when off dev (HTTPS)
-        res.cookie('token', getToken({ user: userToStore }), { httpOnly: true, maxAge: jwtMaxAge })
-        return res.status(status).send({ success: true, user: userToStore })
-      }
-      status = 404
-      throw 'That email and/or password does not match.'
-    })
+      // TODO: Add `secure` option when off dev (HTTPS)
+      res.cookie('token', getToken({ user: userToStore }), { httpOnly: true, maxAge: jwtMaxAge })
+      return res.status(status).send({ success: true, user: userToStore })
+    }
+    status = 404
+    throw 'That email and/or password does not match.'
   } catch (error) {
     logger.error('auth > login()', error)
     return res.status(status).send({ error })
@@ -106,7 +105,7 @@ function register(req, res) {
     })
     .catch((error) => {
       logger.error('auth > register()', error)
-      res.send({ success: false, error })
+      res.status(500).send({ success: false, error })
     })
 }
 
