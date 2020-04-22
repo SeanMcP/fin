@@ -3,8 +3,8 @@ const logger = require('../logger')
 
 function addStudentToClass(req, res) {
   db.query('INSERT INTO seats (class_id, student_id) VALUES ($1, $2)', [
-    req.body.class_id,
-    req.body.student_id,
+    req.body.classId,
+    req.body.studentId,
   ])
     .then((response) => {
       res.send({ response, success: true })
@@ -17,7 +17,7 @@ function addStudentToClass(req, res) {
 function getByClassId(req, res) {
   db.query(
     `
-        SELECT name, student_id, user_id
+        SELECT name, student_id AS id
         FROM seats
         JOIN students
         ON seats.student_id = students.id
@@ -26,7 +26,7 @@ function getByClassId(req, res) {
     [req.params.id],
   )
     .then((response) => {
-      res.send({ data: response.rows })
+      res.send({ students: response.rows })
     })
     .catch((error) => {
       res.send({ error })

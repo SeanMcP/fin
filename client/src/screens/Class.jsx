@@ -30,8 +30,8 @@ function Class() {
             <AddStudent classId={id} />
             <h2>Students</h2>
             <Query id="students-in-this-class" route={`/seats/class/${id}`}>
-                {({ data }) => {
-                    return <ul>{data.map(({ name, student_id: studentId }) => <li key={studentId}>{name}<button onClick={() => removeFromClass(studentId, id)}>Remove</button></li>)}</ul>
+                {({ students }) => {
+                    return <ul>{students.map(({ name, id: studentId }) => <li key={studentId}>{name}<button onClick={() => removeFromClass(studentId, id)}>Remove</button></li>)}</ul>
                 }}
             </Query>
         </ScreenLayout>
