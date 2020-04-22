@@ -13,7 +13,7 @@ function AddClass() {
         },
         async onSubmit({ name }) {
             const response = await request('class', {
-                body: { name, user_id: user.id }
+                body: { name, userId: user.id }
             })
 
             if (response.ok) {

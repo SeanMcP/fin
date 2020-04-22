@@ -4,7 +4,7 @@ const logger = require('../logger')
 function add(req, res) {
   db.query('INSERT INTO students (name, user_id) VALUES ($1, $2) RETURNING id', [
     req.body.name,
-    req.body.user_id,
+    req.body.userId,
   ])
     .then((response) => {
       res.send({ student: response.rows[0], success: true })
