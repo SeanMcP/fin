@@ -34,32 +34,35 @@ function clear(req, res) {
 }
 
 async function login(req, res) {
-  let status = 200
   try {
     const { email, password } = req.body
 
     // If email or password is not provided, send "Bad Request"
     if (!email || !password) {
-      status = 400
-      throw 'Email and password are required.'
+      throw {
+        message: 'Email and password are required.',
+        status: 400
+      }
     }
 
-    const response = await db.query('SELECT id, email, nonce, password, uuid FROM users WHERE email = $1', [
+    const response = await db.query('SELECT email, id, nonce, password FROM users WHERE email = $1', [
       email,
     ])
     const [user] = response.rows
     if (user && getHash(password, user.nonce) === user.password) {
-      const userToStore = { email: user.email, id: user.id, uuid: user.uuid }
+      const userToStore = { email: user.email, id: user.id }
 
       // TODO: Add `secure` option when off dev (HTTPS)
       res.cookie('token', getToken({ user: userToStore }), { httpOnly: true, maxAge: jwtMaxAge })
-      return res.status(status).send({ success: true, user: userToStore })
+      return res.status(200).send({ success: true, user: userToStore })
     }
-    status = 404
-    throw 'That email and/or password does not match.'
+    throw {
+      message: 'That email and/or password does not match.',
+      status: 404
+    }
   } catch (error) {
     logger.error('auth > login()', error)
-    return res.status(status).send({ error })
+    return res.status(error.status || 500).send({ error })
   }
 }
 
