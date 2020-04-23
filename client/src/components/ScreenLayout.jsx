@@ -17,7 +17,13 @@ function ScreenLayout(props) {
         <div>
             <header>
                 <Link to="/">Fin</Link>
-                {isAuthenticated && <nav aria-label="main navigation"><Link to="/dashboard">Dashboard</Link><LogOut /></nav>}
+                {isAuthenticated && (
+                    <nav aria-label="main navigation">
+                        <Link to="/dashboard">Dashboard</Link>
+                        <Link to="/students">Students</Link>
+                        <LogOut />
+                    </nav>
+                )}
             </header>
             <main>{props.children}</main>
         </div>
