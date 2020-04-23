@@ -14,6 +14,7 @@ function Dashboard() {
             <Query id="classes" route={`/classes/${user.id}`}>
                 {({ data }) => (
                     <nav aria-label="classes navigation">
+                        <h2>Classes</h2>
                         <ul>
                             {data.map(({ id, name }) => <li key={id}><Link to={`/class/${id}`}>{name}</Link></li>)}
                         </ul>
