@@ -12,9 +12,12 @@ function AddStudent({ classId }) {
             name: 'Sam W.'
         },
         async onSubmit({ name }) {
-            const response = await request('student/class', {
-                body: { classId, name, userId: user.id }
-            })
+            let route = 'student', body = { name, userId: user.id }
+            if (classId) {
+                route += '/class'
+                body.classId = classId
+            }
+            const response = await request(route, { body })
 
             if (response.ok) {
                 alert(`${name} was successfully added!`)
