@@ -11,7 +11,7 @@ function add(req, res) {
     })
     .catch((error) => {
       logger.error('students > add()', error)
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
@@ -43,7 +43,7 @@ function getAll(req, res) {
     })
     .catch((error) => {
       logger.error('students > getAll()', error)
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
@@ -54,7 +54,7 @@ function getAllByUserId(req, res) {
     })
     .catch((error) => {
       logger.error('students > getAllByUserId()', error)
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
@@ -65,7 +65,7 @@ function getById(req, res) {
     })
     .catch((error) => {
       logger.error('students > getById()', error)
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
@@ -79,7 +79,7 @@ function updateById(req, res) {
     })
     .catch((error) => {
       logger.error('students > updateById()', error)
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
@@ -90,7 +90,7 @@ function deleteById(req, res) {
     })
     .catch((error) => {
       logger.error('students > deleteById()', error)
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 

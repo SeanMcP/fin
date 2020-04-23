@@ -31,7 +31,7 @@ function getAllByUserId(req, res) {
       res.send({ data: response.rows })
     })
     .catch((error) => {
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 

@@ -7,7 +7,7 @@ function deleteById(req, res) {
       res.send({ response, success: true })
     })
     .catch((error) => {
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
@@ -18,7 +18,7 @@ function getAll(req, res) {
     })
     .catch((error) => {
       logger.error('users > getAll()', error)
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
@@ -32,7 +32,7 @@ function updateById(req, res) {
     })
     .catch((error) => {
       logger.error('users > updateById()', error)
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 

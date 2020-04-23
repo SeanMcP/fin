@@ -10,7 +10,7 @@ function addStudentToClass(req, res) {
       res.send({ response, success: true })
     })
     .catch((error) => {
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
@@ -29,7 +29,7 @@ function getByClassId(req, res) {
       res.send({ students: response.rows })
     })
     .catch((error) => {
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
@@ -48,7 +48,7 @@ function getByStudentId(req, res) {
       res.send({ data: response.rows })
     })
     .catch((error) => {
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
@@ -58,7 +58,7 @@ function removeClass(req, res) {
       res.send({ response, success: true })
     })
     .catch((error) => {
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
@@ -68,7 +68,7 @@ function removeStudentFromAll(req, res) {
       res.send({ response, success: true })
     })
     .catch((error) => {
-      res.send({ error })
+      res.status(500).send({ error })
     })
 }
 
