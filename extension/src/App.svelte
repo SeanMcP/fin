@@ -1,9 +1,10 @@
 <script>
-	console.log('Hello from extension')
+	import LogIn from './LogIn.svelte'
 </script>
 
 <main>
 	<h1>Fin</h1>
+	<LogIn />
 </main>
 
 <style>
