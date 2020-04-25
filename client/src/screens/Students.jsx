@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import AddStudent from '../components/AddStudent'
 import Query from '../components/Query'
 import ScreenLayout from '../components/ScreenLayout'
@@ -24,12 +24,26 @@ function Students() {
             <h1>Students</h1>
             <Query id="class" route={`/students/${user.id}`}>
                 {({ students }) => {
+                    if (!students) return null
                     return (
-                        <ul>
-                            {students.map(({ id, name }) => (
-                                <li key={id}>{name}</li>
-                            ))}
-                        </ul>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Classes</th>
+                                </tr>
+                                {students.map(({ classes, id, name }) => (
+                                    <tr key={id}>
+                                        <td>{name}</td>
+                                        <td>
+                                            {classes && classes.map(
+                                                ({ id, name }) => <Link key={id} to={`class/${id}`}>{name}</Link>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     )
                 }}
             </Query>
