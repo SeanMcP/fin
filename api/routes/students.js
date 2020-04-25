@@ -2,10 +2,10 @@ const db = require('../db')
 const logger = require('../logger')
 
 function add(req, res) {
-  db.query('INSERT INTO students (name, user_id) VALUES ($1, $2) RETURNING id', [
-    req.body.name,
-    req.body.userId,
-  ])
+  db.query(
+    'INSERT INTO students (name, user_id) VALUES ($1, $2) RETURNING id',
+    [req.body.name, req.body.userId],
+  )
     .then((response) => {
       res.send({ student: response.rows[0], success: true })
     })
@@ -16,7 +16,8 @@ function add(req, res) {
 }
 
 function addInClass(req, res) {
-  db.query(`WITH insert_student AS (
+  db.query(
+    `WITH insert_student AS (
       INSERT INTO students (name, user_id)
       VALUES ($1, $2)
       RETURNING id AS student_id
@@ -25,7 +26,7 @@ function addInClass(req, res) {
     VALUES ($3, (SELECT student_id FROM insert_student))
     RETURNING (SELECT student_id FROM insert_student) AS id
     `,
-    [req.body.name, req.body.userId, req.body.classId]
+    [req.body.name, req.body.userId, req.body.classId],
   )
     .then((response) => {
       res.send({ student: response.rows[0], success: true })
@@ -48,7 +49,25 @@ function getAll(req, res) {
 }
 
 function getAllByUserId(req, res) {
-  db.query('SELECT * FROM students WHERE user_id = $1', [req.params.userId])
+  db.query(
+    `
+    WITH classes_by_student_id AS (
+      SELECT seats.student_id, json_agg(json_build_object('id', classes.id, 'name', classes.name)) AS classes
+      FROM classes
+      JOIN seats
+      ON seats.class_id = classes.id
+      GROUP BY
+      seats.student_id
+    )
+
+    SELECT students.id, students.name, classes_by_student_id.classes
+    FROM students
+    LEFT JOIN classes_by_student_id
+    ON classes_by_student_id.student_id = students.id
+    WHERE students.user_id = $1;
+  `,
+    [req.params.userId],
+  )
     .then((response) => {
       res.send({ students: response.rows })
     })
