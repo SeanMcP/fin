@@ -6,25 +6,29 @@ import AddClass from '../components/AddClass'
 import { Link } from 'react-router-dom'
 
 function Dashboard() {
-    const [{ user }] = useAppContext()
-    return (
-        <ScreenLayout title="Dashboard">
-            <h1>Dashboard</h1>
-            <pre>{JSON.stringify(user, null, 2)}</pre>
-            <Query id="classes" route={`/classes/${user.id}`}>
-                {({ data }) => (
-                    <nav aria-label="classes navigation">
-                        <h2>Classes</h2>
-                        <ul>
-                            {data.map(({ id, name }) => <li key={id}><Link to={`/class/${id}`}>{name}</Link></li>)}
-                        </ul>
-                    </nav>
-                )}
-            </Query>
-            <hr />
-            <AddClass />
-        </ScreenLayout>
-    )
+  const [{ user }] = useAppContext()
+  return (
+    <ScreenLayout title="Dashboard">
+      <h1>Dashboard</h1>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <Query id="classes" route={`/classes/${user.id}`}>
+        {({ classes }) => (
+          <nav aria-label="classes navigation">
+            <h2>Classes</h2>
+            <ul>
+              {classes.map(({ id, name }) => (
+                <li key={id}>
+                  <Link to={`/class/${id}`}>{name}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+      </Query>
+      <hr />
+      <AddClass />
+    </ScreenLayout>
+  )
 }
 
 export default Dashboard
