@@ -1,12 +1,14 @@
 <script>
 	import Classes from './Classes.svelte'
 	import LogIn from './LogIn.svelte'
+	import Picker from './Picker.svelte'
 	import { ROUTES } from './routes'
 	import { location, userId } from './stores'
 
 	const router = {
 		[ROUTES.classes]: Classes,
 		[ROUTES.login]: LogIn,
+		[ROUTES.picker]: Picker,
 	}
 
 	chrome.storage.sync.get(['userId'], result => {
