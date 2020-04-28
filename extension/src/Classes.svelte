@@ -1,6 +1,8 @@
 <script>
     import { currentClassId, location, userId } from './stores'
-    let promise = getClasses()
+    import { ROUTES } from './routes'
+
+    const promise = getClasses()
 
     async function getClasses() {
         const response = await fetch(`http://localhost:3031/ext/classes/${$userId}`)
@@ -15,7 +17,7 @@
     function _clickHandler(id) {
         return () => {
             currentClassId.set(id)
-            location.navigate(ROUTES.class)
+            location.navigate(ROUTES.picker)
         }
     }
 </script>
