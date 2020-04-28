@@ -25,12 +25,12 @@ app.use(require('./middlewares/unauthorized-error'))
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/health', async (req, res) => {
-    let status = 'Up'
+  let status = 'Up'
 
-    // Test Postgres connection
-    await db.connect().catch(() => (status = 'Down'))
+  // Test Postgres connection
+  await db.connect().catch(() => (status = 'Down'))
 
-    res.send({ status })
+  res.send({ status })
 })
 
 app.post('/class', classes.add)
@@ -46,8 +46,8 @@ app.get('/seats/student/:id', seats.getByStudentId)
 app.delete('/seats/class/:classId', seats.removeClass)
 app.delete('/seats/student/:studentId', seats.removeStudentFromAll)
 app.delete(
-    '/seats/student/:studentId/class/:classId',
-    seats.removeStudentFromClass,
+  '/seats/student/:studentId/class/:classId',
+  seats.removeStudentFromClass,
 )
 
 app.post('/student', students.add)
@@ -66,5 +66,11 @@ app.get('/clear', auth.clear)
 app.post('/login', auth.login)
 app.post('/refresh', auth.refresh)
 app.post('/register', auth.register)
+
+// BROWSER EXTENSION ENDPOINTS
+const extensionOnly = require('./middlewares/extension-only')
+
+app.get('/ext/classes/:userId', extensionOnly, classes.getAllByUserId)
+app.get('/ext/students/class/:id', extensionOnly, seats.getByClassId)
 
 app.listen(port, () => console.log(`API listening on port ${port}!`))
