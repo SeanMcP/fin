@@ -1,7 +1,6 @@
 <script>
     import { ROUTES } from './routes'
-    export let navigate, user
-    const [, setUserId] = user
+    import { location, userId } from './stores'
     let error, email = 'chuck@testa.com', password = 'nope'
 
     async function logIn() {
@@ -10,9 +9,9 @@
     
             if (response.ok) {
                 const { user } = await response.json()
-                setUserId(user.id)
+                userId.set(user.id)
                 chrome.storage.sync.set({ userId: user.id }, () => {
-                    navigate(ROUTES.classes)
+                    location.navigate(ROUTES.classes)
                 })
             }
         } catch(err) {
