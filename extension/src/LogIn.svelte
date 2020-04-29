@@ -1,6 +1,7 @@
 <script>
     import { ROUTES } from './routes'
     import { location, userId } from './stores'
+    import { set } from './storage'
     let error, email = 'chuck@testa.com', password = 'nope'
 
     async function logIn() {
@@ -10,9 +11,8 @@
             if (response.ok) {
                 const { user } = await response.json()
                 userId.set(user.id)
-                chrome.storage.sync.set({ userId: user.id }, () => {
-                    location.navigate(ROUTES.classes)
-                })
+                await set({ userId: user.id })
+                location.navigate(ROUTES.classes)
             }
         } catch(err) {
             error = 'Uh oh; there was an problem logging in! Try again.'

@@ -1,6 +1,7 @@
 <script>
     import { currentClassId, location, userId } from './stores'
     import { ROUTES } from './routes'
+    import { set } from './storage'
 
     const promise = getClasses()
 
@@ -15,7 +16,8 @@
     }
 
     function _clickHandler(id) {
-        return () => {
+        return async () => {
+            await set({ currentClassId: id })
             currentClassId.set(id)
             location.navigate(ROUTES.picker)
         }
