@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "array-shuffle": "^1.0.1",
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.4",
+    "styles": "file:../styles"
   }
 }
