@@ -12,6 +12,8 @@ const db = require('./db')
 const app = express()
 const port = process.env.PORT || 3031
 
+// MIDDLEWARES
+
 app.use(require('body-parser').json())
 app.use(require('cookie-parser')())
 
@@ -22,6 +24,10 @@ app.use(require('./middlewares/cors'))
 
 app.use(require('./middlewares/jwt'))
 app.use(require('./middlewares/unauthorized-error'))
+
+const refreshToken = require('./middlewares/refresh-token')
+
+// ROUTES
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.get('/health', async (req, res) => {
@@ -38,7 +44,7 @@ app.get('/class/:id', classes.getById)
 app.post('/class/:id', classes.updateById)
 app.delete('/class/:id', classes.deleteById)
 app.get('/classes', classes.getAll)
-app.get('/classes/:userId', classes.getAllByUserId)
+app.get('/classes/:userId', refreshToken, classes.getAllByUserId)
 
 app.post('/seat', seats.addStudentToClass)
 app.get('/seats/class/:id', seats.getByClassId)
