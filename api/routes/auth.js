@@ -2,6 +2,7 @@ const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const db = require('../db')
 const logger = require('../logger')
+const { createToken, jwtSecret, tokenOptions } = require('../token')
 
 const iterations = 100000
 const keyLength = 64
@@ -14,21 +15,10 @@ function getHash(password, nonce) {
     .toString(stringType)
 }
 
-const jwtKey = 'keep_it_secret_keep_it_safe'
-const jwtExpiresInSeconds = 600 // Ten minutes in seconds
-const jwtMaxAge = jwtExpiresInSeconds * 1000 // In milliseconds
-
-function getToken(payload) {
-  return jwt.sign(payload, jwtKey, {
-    algorithm: 'HS256',
-    expiresIn: jwtExpiresInSeconds,
-  })
-}
-
 function clear(req, res) {
   const { token } = req.cookies
 
-  if (token) res.clearCookie('token', { httpOnly: true, maxAge: jwtMaxAge })
+  if (token) res.clearCookie('token', tokenOptions)
 
   res.end()
 }
@@ -41,24 +31,24 @@ async function login(req, res) {
     if (!email || !password) {
       throw {
         message: 'Email and password are required.',
-        status: 400
+        status: 400,
       }
     }
 
-    const response = await db.query('SELECT email, id, nonce, password FROM users WHERE email = $1', [
-      email,
-    ])
+    const response = await db.query(
+      'SELECT email, id, nonce, password FROM users WHERE email = $1',
+      [email],
+    )
     const [user] = response.rows
     if (user && getHash(password, user.nonce) === user.password) {
       const userToStore = { email: user.email, id: user.id }
 
-      // TODO: Add `secure` option when off dev (HTTPS)
-      res.cookie('token', getToken({ user: userToStore }), { httpOnly: true, maxAge: jwtMaxAge })
+      res.cookie('token', createToken({ user: userToStore }), tokenOptions)
       return res.status(200).send({ success: true, user: userToStore })
     }
     throw {
       message: 'That email and/or password does not match.',
-      status: 404
+      status: 404,
     }
   } catch (error) {
     logger.error('auth > login()', error)
@@ -68,16 +58,21 @@ async function login(req, res) {
 
 function refresh(req, res) {
   // 400: Bad request; 401: Unauthorized
-  const { body, cookies: { token } } = req
+  const {
+    body,
+    cookies: { token },
+  } = req
   const responseBody = { authorized: false }
 
   if (!token) return res.status(401).send({ authorized: false })
 
   let payload
   try {
-    payload = jwt.verify(token, jwtKey)
+    payload = jwt.verify(token, jwtSecret)
   } catch (error) {
-    return res.status(error instanceof jwt.JsonWebTokenError ? 401 : 400).send(responseBody)
+    return res
+      .status(error instanceof jwt.JsonWebTokenError ? 401 : 400)
+      .send(responseBody)
   }
 
   responseBody.authorized = true
@@ -90,7 +85,7 @@ function refresh(req, res) {
   //   return res.status(400).send({ authorized: false })
   // }
 
-  res.cookie('token', getToken({ user: payload.user }), { httpOnly: true, maxAge: jwtMaxAge })
+  res.cookie('token', createToken({ user: payload.user }), tokenOptions)
   res.status(200).send(responseBody)
 }
 

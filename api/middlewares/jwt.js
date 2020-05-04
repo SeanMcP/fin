@@ -1,9 +1,9 @@
 const jwt = require('express-jwt')
+const { jwtSecret } = require('../token')
 
 module.exports = jwt({
   getToken: (req) => req.cookies && req.cookies.token,
-  // TODO: Figure out where to store secret
-  secret: 'keep_it_secret_keep_it_safe',
+  secret: jwtSecret,
 }).unless({
   // TODO: Apply this middleware to every endpoint that
   // needs it, instead of adding to this array. A long
