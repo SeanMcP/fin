@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useParams } from 'react-router-dom'
+import { history, useParams, Redirect } from 'react-router-dom'
 import AddStudent from '../components/AddStudent'
 import Query from '../components/Query'
 import ScreenLayout from '../components/ScreenLayout'
@@ -18,8 +18,27 @@ async function removeFromClass(studentId, classId) {
   }
 }
 
+async function deleteClass(classId, next) {
+  if (window.confirm('Are you sure that you want to delete this class?')) {
+    const response = await request(`class/${classId}`, { method: 'DELETE' })
+
+    const { success } = await response.json()
+
+    if (success) {
+      alert('Class deleted')
+      next()
+    } else {
+      alert('Uh oh! Something went wrong.')
+    }
+  }
+}
+
 function Class() {
   const { id } = useParams()
+  const [doRedirect, setDoRedirect] = React.useState(false)
+
+  if (doRedirect) return <Redirect to="/dashboard" />
+
   return (
     <ScreenLayout title="Class">
       <Query id="class" route={`/class/${id}`}>
@@ -47,6 +66,10 @@ function Class() {
           )
         }}
       </Query>
+      <hr />
+      <button onClick={() => deleteClass(id, () => setDoRedirect(true))}>
+        Delete class
+      </button>
     </ScreenLayout>
   )
 }
