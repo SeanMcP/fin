@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { history, useParams, Redirect } from 'react-router-dom'
+import { useParams, Redirect } from 'react-router-dom'
 import AddStudent from '../components/AddStudent'
 import Query from '../components/Query'
 import ScreenLayout from '../components/ScreenLayout'
@@ -49,6 +49,17 @@ function Class() {
         }}
       </Query>
       <AddStudent classId={id} />
+      <Query id="all-students" route={`/students/not/class/${id}`}>
+        {({ students }) => {
+          return (
+            <ul>
+              {students.map((student) => (
+                <li key={student.id}>{student.name}</li>
+              ))}
+            </ul>
+          )
+        }}
+      </Query>
       <h2>Students</h2>
       <Query id="students-in-this-class" route={`/seats/class/${id}`}>
         {({ students }) => {
