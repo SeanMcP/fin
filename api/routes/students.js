@@ -103,7 +103,7 @@ function updateById(req, res) {
 }
 
 function deleteById(req, res) {
-  db.query('DELETE students WHERE id = $1', [req.params.id])
+  db.query('DELETE FROM students WHERE id = $1', [req.params.id])
     .then(() => {
       res.send({ success: true })
     })

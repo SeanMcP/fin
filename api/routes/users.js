@@ -2,7 +2,7 @@ const db = require('../db')
 const logger = require('../logger')
 
 function deleteById(req, res) {
-  db.query('DELETE users WHERE id = $1', [req.params.id])
+  db.query('DELETE FROM users WHERE id = $1', [req.params.id])
     .then((response) => {
       res.send({ response, success: true })
     })
