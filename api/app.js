@@ -61,6 +61,7 @@ app.post('/student/class', students.addInClass)
 app.get('/student/:id', students.getById)
 app.post('/student/:id', students.updateById)
 app.delete('/student/:id', students.deleteById)
+app.get('/students/not/class/:id', refreshToken, students.getAllNotInClass)
 app.get('/students', students.getAll)
 app.get('/students/:userId', students.getAllByUserId)
 

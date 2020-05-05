@@ -77,6 +77,27 @@ function getAllByUserId(req, res) {
     })
 }
 
+function getAllNotInClass(req, res) {
+  db.query(
+    `
+  SELECT students.name, students.id FROM students
+  LEFT JOIN seats
+  ON seats.student_id = students.id
+  LEFT JOIN classes
+  ON classes.id = seats.class_id
+  WHERE classes.id != $1
+  `,
+    [req.params.id],
+  )
+    .then((response) => {
+      res.send({ students: response.rows })
+    })
+    .catch((error) => {
+      logger.error('students > getAllNotInClass()', error)
+      res.status(500).send({ error })
+    })
+}
+
 function getById(req, res) {
   db.query(`SELECT * FROM students WHERE id = $1`, [req.params.id])
     .then((response) => {
@@ -119,6 +140,7 @@ module.exports = {
   deleteById,
   getAll,
   getAllByUserId,
+  getAllNotInClass,
   getById,
   updateById,
 }
