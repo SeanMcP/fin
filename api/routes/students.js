@@ -80,12 +80,17 @@ function getAllByUserId(req, res) {
 function getAllNotInClass(req, res) {
   db.query(
     `
-  SELECT students.name, students.id FROM students
-  LEFT JOIN seats
-  ON seats.student_id = students.id
-  LEFT JOIN classes
-  ON classes.id = seats.class_id
-  WHERE classes.id != $1
+  WITH classes_by_student_id AS (
+    SELECT seats.student_id, array_agg(seats.class_id) AS classes
+    FROM seats
+    GROUP BY
+    seats.student_id
+  )
+
+  SELECT students.name, students.id FROM classes_by_student_id
+  LEFT JOIN students
+  ON classes_by_student_id.student_id = students.id
+  WHERE NOT ($1 = ANY (classes_by_student_id.classes))
   `,
     [req.params.id],
   )
