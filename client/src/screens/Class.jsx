@@ -41,7 +41,7 @@ function Class() {
 
   return (
     <ScreenLayout title="Class">
-      <Query id="class" route={`/class/${id}`}>
+      <Query id={['class', id]} route={`/class/${id}`}>
         {({ data }) => {
           if (!data) return null
           const { name } = data[0]
@@ -49,19 +49,28 @@ function Class() {
         }}
       </Query>
       <AddStudent classId={id} />
-      <Query id="all-students" route={`/students/not/class/${id}`}>
+      <Query
+        id={['students not in class', id]}
+        route={`/students/not/class/${id}`}
+      >
         {({ students }) => {
           return (
             <ul>
               {students.map((student) => (
-                <li key={student.id}>{student.name}</li>
+                <li key={student.id}>
+                  {student.name}{' '}
+                  <AddExistingStudentToClassButton
+                    classId={id}
+                    studentId={student.id}
+                  />
+                </li>
               ))}
             </ul>
           )
         }}
       </Query>
       <h2>Students</h2>
-      <Query id="students-in-this-class" route={`/seats/class/${id}`}>
+      <Query id={['students in class', id]} route={`/seats/class/${id}`}>
         {({ students }) => {
           return (
             <ul>
@@ -83,6 +92,22 @@ function Class() {
       </button>
     </ScreenLayout>
   )
+}
+
+function AddExistingStudentToClassButton({ classId, studentId }) {
+  async function handleClick(e) {
+    e.preventDefault()
+
+    const response = await request('seat', { body: { classId, studentId } })
+
+    if (response.ok) {
+      alert('Yeah')
+    } else {
+      alert('Boo')
+    }
+  }
+
+  return <button onClick={handleClick}>Add</button>
 }
 
 export default Class
