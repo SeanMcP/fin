@@ -1,8 +1,8 @@
 <script>
-    import { currentClassId, currentIndex, currentList } from './stores'
+    import { currentSectionId, currentIndex, currentList } from './stores'
 
     async function getStudents() {
-        const response = await fetch(`http://localhost:3031/ext/students/class/${$currentClassId}`)
+        const response = await fetch(`http://localhost:3031/ext/students/section/${$currentSectionId}`)
 
         if (response.ok) {
             const { students } = await response.json()

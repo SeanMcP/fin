@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 
 const auth = require('./routes/auth')
-const classes = require('./routes/classes')
+const sections = require('./routes/sections')
 const seats = require('./routes/seats')
 const students = require('./routes/students')
 const users = require('./routes/users')
@@ -39,29 +39,29 @@ app.get('/health', async (req, res) => {
   res.send({ status })
 })
 
-app.post('/class', classes.add)
-app.get('/class/:id', classes.getById)
-app.post('/class/:id', classes.updateById)
-app.delete('/class/:id', classes.deleteById)
-app.get('/classes', classes.getAll)
-app.get('/classes/:userId', refreshToken, classes.getAllByUserId)
-
-app.post('/seat', seats.addStudentToClass)
-app.get('/seats/class/:id', seats.getByClassId)
+app.post('/seat', seats.addStudentToSection)
+app.get('/seats/section/:id', seats.getBySectionId)
 app.get('/seats/student/:id', seats.getByStudentId)
-app.delete('/seats/class/:classId', seats.removeClass)
+app.delete('/seats/section/:sectionId', seats.removeSection)
 app.delete('/seats/student/:studentId', seats.removeStudentFromAll)
 app.delete(
-  '/seats/student/:studentId/class/:classId',
-  seats.removeStudentFromClass,
+  '/seats/student/:studentId/section/:sectionId',
+  seats.removeStudentFromSection,
 )
 
+app.post('/section', sections.add)
+app.get('/section/:id', sections.getById)
+app.post('/section/:id', sections.updateById)
+app.delete('/section/:id', sections.deleteById)
+app.get('/sections', sections.getAll)
+app.get('/sections/:userId', refreshToken, sections.getAllByUserId)
+
 app.post('/student', students.add)
-app.post('/student/class', students.addInClass)
+app.post('/student/section', students.addInSection)
 app.get('/student/:id', students.getById)
 app.post('/student/:id', students.updateById)
 app.delete('/student/:id', students.deleteById)
-app.get('/students/not/class/:id', refreshToken, students.getAllNotInClass)
+app.get('/students/not/section/:id', refreshToken, students.getAllNotInSection)
 app.get('/students', students.getAll)
 app.get('/students/:userId', students.getAllByUserId)
 
@@ -77,7 +77,7 @@ app.post('/register', auth.register)
 // BROWSER EXTENSION ENDPOINTS
 const extensionOnly = require('./middlewares/extension-only')
 
-app.get('/ext/classes/:userId', extensionOnly, classes.getAllByUserId)
-app.get('/ext/students/class/:id', extensionOnly, seats.getByClassId)
+app.get('/ext/sections/:userId', extensionOnly, sections.getAllByUserId)
+app.get('/ext/students/section/:id', extensionOnly, seats.getBySectionId)
 
 app.listen(port, () => console.log(`API listening on port ${port}!`))

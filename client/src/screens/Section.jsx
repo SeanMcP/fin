@@ -5,27 +5,27 @@ import Query from '../components/Query'
 import ScreenLayout from '../components/ScreenLayout'
 import request from '../utils/request'
 
-async function removeFromClass(studentId, classId) {
+async function removeFromSection(studentId, sectionId) {
   const response = await request(
-    `seats/student/${studentId}/class/${classId}`,
+    `seats/student/${studentId}/section/${sectionId}`,
     { method: `DELETE` },
   )
 
   if (response.ok) {
-    alert('Student removed from class!')
+    alert('Student removed from section!')
   } else {
     alert('Uh oh! Something went wrong.')
   }
 }
 
-async function deleteClass(classId, next) {
-  if (window.confirm('Are you sure that you want to delete this class?')) {
-    const response = await request(`class/${classId}`, { method: 'DELETE' })
+async function deleteSection(sectionId, next) {
+  if (window.confirm('Are you sure that you want to delete this section?')) {
+    const response = await request(`section/${sectionId}`, { method: 'DELETE' })
 
     const { success } = await response.json()
 
     if (success) {
-      alert('Class deleted')
+      alert('Section deleted')
       next()
     } else {
       alert('Uh oh! Something went wrong.')
@@ -33,25 +33,25 @@ async function deleteClass(classId, next) {
   }
 }
 
-function Class() {
+function Section() {
   const { id } = useParams()
   const [doRedirect, setDoRedirect] = React.useState(false)
 
   if (doRedirect) return <Redirect to="/dashboard" />
 
   return (
-    <ScreenLayout title="Class">
-      <Query id={['class', id]} route={`/class/${id}`}>
-        {({ data }) => {
-          if (!data) return null
-          const { name } = data[0]
+    <ScreenLayout title="Section">
+      <Query id={['section', id]} route={`/section/${id}`}>
+        {({ section }) => {
+          if (!section) return null
+          const { name } = section[0]
           return <h1>{name}</h1>
         }}
       </Query>
-      <AddStudent classId={id} />
+      <AddStudent sectionId={id} />
       <Query
-        id={['students not in class', id]}
-        route={`/students/not/class/${id}`}
+        id={['students not in section', id]}
+        route={`/students/not/section/${id}`}
       >
         {({ students }) => {
           return (
@@ -59,8 +59,8 @@ function Class() {
               {students.map((student) => (
                 <li key={student.id}>
                   {student.name}{' '}
-                  <AddExistingStudentToClassButton
-                    classId={id}
+                  <AddExistingStudentToSectionButton
+                    sectionId={id}
                     studentId={student.id}
                   />
                 </li>
@@ -70,14 +70,14 @@ function Class() {
         }}
       </Query>
       <h2>Students</h2>
-      <Query id={['students in class', id]} route={`/seats/class/${id}`}>
+      <Query id={['students in section', id]} route={`/seats/section/${id}`}>
         {({ students }) => {
           return (
             <ul>
               {students.map(({ name, id: studentId }) => (
                 <li key={studentId}>
                   {name}
-                  <button onClick={() => removeFromClass(studentId, id)}>
+                  <button onClick={() => removeFromSection(studentId, id)}>
                     Remove
                   </button>
                 </li>
@@ -87,18 +87,18 @@ function Class() {
         }}
       </Query>
       <hr />
-      <button onClick={() => deleteClass(id, () => setDoRedirect(true))}>
-        Delete class
+      <button onClick={() => deleteSection(id, () => setDoRedirect(true))}>
+        Delete section
       </button>
     </ScreenLayout>
   )
 }
 
-function AddExistingStudentToClassButton({ classId, studentId }) {
+function AddExistingStudentToSectionButton({ sectionId, studentId }) {
   async function handleClick(e) {
     e.preventDefault()
 
-    const response = await request('seat', { body: { classId, studentId } })
+    const response = await request('seat', { body: { sectionId, studentId } })
 
     if (response.ok) {
       alert('Yeah')
@@ -110,4 +110,4 @@ function AddExistingStudentToClassButton({ classId, studentId }) {
   return <button onClick={handleClick}>Add</button>
 }
 
-export default Class
+export default Section

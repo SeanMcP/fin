@@ -1,12 +1,12 @@
 <script>
-    import { currentClassId, location, userId } from './stores'
+    import { currentSectionId, location, userId } from './stores'
     import { ROUTES } from './routes'
     import { set } from './storage'
 
-    const promise = getClasses()
+    const promise = getSections()
 
-    async function getClasses() {
-        const response = await fetch(`http://localhost:3031/ext/classes/${$userId}`)
+    async function getSections() {
+        const response = await fetch(`http://localhost:3031/ext/sections/${$userId}`)
 
         if (response.ok) {
             return await response.json()
@@ -17,8 +17,8 @@
 
     function _clickHandler(id) {
         return async () => {
-            await set({ currentClassId: id })
-            currentClassId.set(id)
+            await set({ currentSectionId: id })
+            currentSectionId.set(id)
             location.navigate(ROUTES.picker)
         }
     }
@@ -26,9 +26,9 @@
 
 {#await promise}
     <p>Loading...</p>
-{:then { classes }}
+{:then { sections }}
     <ul>
-    {#each classes as { name, id } (id)}
+    {#each sections as { name, id } (id)}
         <li><button on:click={_clickHandler(id)}>{name}</button></li>
     {/each}
     </ul>

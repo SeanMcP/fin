@@ -1,6 +1,6 @@
 export const ROUTES = {
   login: 'login',
-  classes: 'classes',
+  sections: 'sections',
   picker: 'picker',
 }
 

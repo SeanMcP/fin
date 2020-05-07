@@ -15,24 +15,24 @@ function add(req, res) {
     })
 }
 
-function addInClass(req, res) {
+function addInSection(req, res) {
   db.query(
     `WITH insert_student AS (
       INSERT INTO students (name, user_id)
       VALUES ($1, $2)
       RETURNING id AS student_id
     )
-    INSERT INTO seats (class_id, student_id)
+    INSERT INTO seats (section_id, student_id)
     VALUES ($3, (SELECT student_id FROM insert_student))
     RETURNING (SELECT student_id FROM insert_student) AS id
     `,
-    [req.body.name, req.body.userId, req.body.classId],
+    [req.body.name, req.body.userId, req.body.sectionId],
   )
     .then((response) => {
       res.send({ student: response.rows[0], success: true })
     })
     .catch((error) => {
-      logger.error('students > addInClass()', error)
+      logger.error('students > addInSection()', error)
       res.status(500).send({ error })
     })
 }
@@ -51,19 +51,19 @@ function getAll(req, res) {
 function getAllByUserId(req, res) {
   db.query(
     `
-    WITH classes_by_student_id AS (
-      SELECT seats.student_id, json_agg(json_build_object('id', classes.id, 'name', classes.name)) AS classes
-      FROM classes
+    WITH sections_by_student_id AS (
+      SELECT seats.student_id, json_agg(json_build_object('id', sections.id, 'name', sections.name)) AS sections
+      FROM sections
       JOIN seats
-      ON seats.class_id = classes.id
+      ON seats.section_id = sections.id
       GROUP BY
       seats.student_id
     )
 
-    SELECT students.id, students.name, classes_by_student_id.classes
+    SELECT students.id, students.name, sections_by_student_id.sections
     FROM students
-    LEFT JOIN classes_by_student_id
-    ON classes_by_student_id.student_id = students.id
+    LEFT JOIN sections_by_student_id
+    ON sections_by_student_id.student_id = students.id
     WHERE students.user_id = $1;
   `,
     [req.params.userId],
@@ -77,20 +77,20 @@ function getAllByUserId(req, res) {
     })
 }
 
-function getAllNotInClass(req, res) {
+function getAllNotInSection(req, res) {
   db.query(
     `
-  WITH classes_by_student_id AS (
-    SELECT seats.student_id, array_agg(seats.class_id) AS classes
+  WITH sections_by_student_id AS (
+    SELECT seats.student_id, array_agg(seats.section_id) AS sections
     FROM seats
     GROUP BY
     seats.student_id
   )
 
-  SELECT students.name, students.id FROM classes_by_student_id
+  SELECT students.name, students.id FROM sections_by_student_id
   LEFT JOIN students
-  ON classes_by_student_id.student_id = students.id
-  WHERE NOT ($1 = ANY (classes_by_student_id.classes))
+  ON sections_by_student_id.student_id = students.id
+  WHERE NOT ($1 = ANY (sections_by_student_id.sections))
   `,
     [req.params.id],
   )
@@ -98,7 +98,7 @@ function getAllNotInClass(req, res) {
       res.send({ students: response.rows })
     })
     .catch((error) => {
-      logger.error('students > getAllNotInClass()', error)
+      logger.error('students > getAllNotInSection()', error)
       res.status(500).send({ error })
     })
 }
@@ -141,11 +141,11 @@ function deleteById(req, res) {
 
 module.exports = {
   add,
-  addInClass,
+  addInSection,
   deleteById,
   getAll,
   getAllByUserId,
-  getAllNotInClass,
+  getAllNotInSection,
   getById,
   updateById,
 }

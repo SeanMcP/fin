@@ -2,7 +2,7 @@ const db = require('../db')
 const logger = require('../logger')
 
 function add(req, res) {
-  db.query('INSERT INTO classes (name, user_id) VALUES ($1, $2)', [
+  db.query('INSERT INTO sections (name, user_id) VALUES ($1, $2)', [
     req.body.name,
     req.body.userId,
   ])
@@ -10,46 +10,46 @@ function add(req, res) {
       res.send({ success: true })
     })
     .catch((error) => {
-      logger.error('classes > add', error)
+      logger.error('sections > add', error)
       res.status(500).send({ error, success: false })
     })
 }
 
 function getAll(req, res) {
-  db.query('SELECT * FROM classes')
+  db.query('SELECT * FROM sections')
     .then((response) => {
-      res.status(200).send({ classes: response.rows })
+      res.status(200).send({ sections: response.rows })
     })
     .catch((error) => {
-      logger.error('classes > getAll', error)
+      logger.error('sections > getAll', error)
       res.status(404).send({ error, title: 'Unable to retrieve data' })
     })
 }
 
 function getAllByUserId(req, res) {
-  db.query('SELECT * FROM classes WHERE user_id = $1', [req.params.userId])
+  db.query('SELECT * FROM sections WHERE user_id = $1', [req.params.userId])
     .then((response) => {
-      res.send({ classes: response.rows })
+      res.send({ sections: response.rows })
     })
     .catch((error) => {
-      logger.error('classes > getAllByUserId', error)
+      logger.error('sections > getAllByUserId', error)
       res.status(500).send({ error })
     })
 }
 
 function getById(req, res) {
-  db.query('SELECT * FROM classes WHERE id = $1', [req.params.id])
+  db.query('SELECT * FROM sections WHERE id = $1', [req.params.id])
     .then((response) => {
-      res.send({ class: response.rows })
+      res.send({ section: response.rows })
     })
     .catch((error) => {
-      logger.error('classes > getById', error)
+      logger.error('sections > getById', error)
       res.status(500).send({ error })
     })
 }
 
 function updateById(req, res) {
-  db.query('UPDATE classes SET name = $1 WHERE id = $2', [
+  db.query('UPDATE sections SET name = $1 WHERE id = $2', [
     req.body.name,
     req.params.id,
   ])
@@ -57,18 +57,18 @@ function updateById(req, res) {
       res.send({ success: true })
     })
     .catch((error) => {
-      logger.error('classes > updateById', error)
+      logger.error('sections > updateById', error)
       res.status(500).send({ error, success: false })
     })
 }
 
 function deleteById(req, res) {
-  db.query('DELETE FROM classes WHERE id = $1', [req.params.id])
+  db.query('DELETE FROM sections WHERE id = $1', [req.params.id])
     .then(() => {
       res.send({ success: true })
     })
     .catch((error) => {
-      logger.error('classes > deleteById', error)
+      logger.error('sections > deleteById', error)
       res.status(500).send({ error, success: false })
     })
 }

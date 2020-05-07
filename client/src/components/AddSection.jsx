@@ -4,31 +4,27 @@ import { useFormik } from 'formik'
 import { useAppContext } from '../store/AppContext'
 import request from '../utils/request'
 
-function AddStudent({ sectionId }) {
+function AddSection() {
   const [{ user }] = useAppContext()
 
   const formik = useFormik({
     initialValues: {
-      name: 'Sam W.',
+      name: 'Biology',
     },
     async onSubmit({ name }) {
-      let route = 'student',
-        body = { name, userId: user.id }
-      if (sectionId) {
-        route += '/section'
-        body.sectionId = sectionId
-      }
-      const response = await request(route, { body })
+      const response = await request('section', {
+        body: { name, userId: user.id },
+      })
 
       if (response.ok) {
-        alert(`${name} was successfully added!`)
+        alert('Yeah!')
       }
     },
   })
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <h2>Add a student</h2>
+      <h2>Add a section</h2>
       <InputGroup
         name="name"
         onChange={formik.handleChange}
@@ -39,4 +35,4 @@ function AddStudent({ sectionId }) {
   )
 }
 
-export default AddStudent
+export default AddSection

@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte'
-	import Classes from './Classes.svelte'
+	import Sections from './Sections.svelte'
 	import LogIn from './LogIn.svelte'
 	import Picker from './Picker.svelte'
 	import { ROUTES } from './routes'
@@ -8,7 +8,7 @@
 	import { get } from './storage'
 
 	const router = {
-		[ROUTES.classes]: Classes,
+		[ROUTES.sections]: Sections,
 		[ROUTES.login]: LogIn,
 		[ROUTES.picker]: Picker,
 	}
@@ -25,9 +25,9 @@
 		// was previously in the picker mode. Send them back.
 		if (result.currentIndex && result.currentList) {
 			location.navigate(ROUTES.picker)
-		// If they are logged in, send them to the classes page.
+		// If they are logged in, send them to the sections page.
 		} else if (result.userId) {
-			location.navigate(ROUTES.classes)
+			location.navigate(ROUTES.sections)
 		}
 	})
 </script>

@@ -15,7 +15,7 @@ export const location = createLocation()
 
 export const userId = writable('')
 
-export const currentClassId = writable('')
+export const currentSectionId = writable('')
 
 function createCurrentList() {
   const store = writable([])

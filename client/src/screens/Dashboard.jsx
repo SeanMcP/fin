@@ -2,7 +2,7 @@ import React from 'react'
 import ScreenLayout from '../components/ScreenLayout'
 import Query from '../components/Query'
 import { useAppContext } from '../store/AppContext'
-import AddClass from '../components/AddClass'
+import AddSection from '../components/AddSection'
 import { Link } from 'react-router-dom'
 
 function Dashboard() {
@@ -11,14 +11,14 @@ function Dashboard() {
     <ScreenLayout title="Dashboard">
       <h1>Dashboard</h1>
       <pre>{JSON.stringify(user, null, 2)}</pre>
-      <Query id="classes" route={`/classes/${user.id}`}>
-        {({ classes }) => (
-          <nav aria-label="classes navigation">
-            <h2>Classes</h2>
+      <Query id="sections" route={`/sections/${user.id}`}>
+        {({ sections }) => (
+          <nav aria-label="sections navigation">
+            <h2>Sections</h2>
             <ul>
-              {classes.map(({ id, name }) => (
+              {sections.map(({ id, name }) => (
                 <li key={id}>
-                  <Link to={`/class/${id}`}>{name}</Link>
+                  <Link to={`/section/${id}`}>{name}</Link>
                 </li>
               ))}
             </ul>
@@ -26,7 +26,7 @@ function Dashboard() {
         )}
       </Query>
       <hr />
-      <AddClass />
+      <AddSection />
     </ScreenLayout>
   )
 }

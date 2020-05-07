@@ -1,9 +1,9 @@
 const db = require('../db')
 const logger = require('../logger')
 
-function addStudentToClass(req, res) {
-  db.query('INSERT INTO seats (class_id, student_id) VALUES ($1, $2)', [
-    req.body.classId,
+function addStudentToSection(req, res) {
+  db.query('INSERT INTO seats (section_id, student_id) VALUES ($1, $2)', [
+    req.body.sectionId,
     req.body.studentId,
   ])
     .then((response) => {
@@ -14,14 +14,14 @@ function addStudentToClass(req, res) {
     })
 }
 
-function getByClassId(req, res) {
+function getBySectionId(req, res) {
   db.query(
     `
         SELECT name, student_id AS id
         FROM seats
         JOIN students
         ON seats.student_id = students.id
-        WHERE class_id = $1
+        WHERE section_id = $1
     `,
     [req.params.id],
   )
@@ -36,10 +36,10 @@ function getByClassId(req, res) {
 function getByStudentId(req, res) {
   db.query(
     `
-        SELECT class_id, name, user_id
+        SELECT section_id, name, user_id
         FROM seats
-        JOIN classes
-        ON seats.class_id = classes.id
+        JOIN sections
+        ON seats.section_id = sections.id
         WHERE student_id = $1
     `,
     [req.params.id],
@@ -52,8 +52,8 @@ function getByStudentId(req, res) {
     })
 }
 
-function removeClass(req, res) {
-  db.query('DELETE FROM seats WHERE class_id = $1', [req.params.classId])
+function removeSection(req, res) {
+  db.query('DELETE FROM seats WHERE section_id = $1', [req.params.sectionId])
     .then((response) => {
       res.send({ response, success: true })
     })
@@ -72,25 +72,25 @@ function removeStudentFromAll(req, res) {
     })
 }
 
-function removeStudentFromClass(req, res) {
-  db.query('DELETE FROM seats WHERE class_id = $1 AND student_id = $2', [
-    req.params.classId,
+function removeStudentFromSection(req, res) {
+  db.query('DELETE FROM seats WHERE section_id = $1 AND student_id = $2', [
+    req.params.sectionId,
     req.params.studentId,
   ])
     .then(() => {
       res.send({ success: true })
     })
     .catch((error) => {
-      logger.error('seats > removeStudentFromClass()', error)
+      logger.error('seats > removeStudentFromSection()', error)
       res.status(500).send({ error })
     })
 }
 
 module.exports = {
-  addStudentToClass,
-  getByClassId,
+  addStudentToSection,
+  getBySectionId,
   getByStudentId,
-  removeClass,
+  removeSection,
   removeStudentFromAll,
-  removeStudentFromClass,
+  removeStudentFromSection,
 }

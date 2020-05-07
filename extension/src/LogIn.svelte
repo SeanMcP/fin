@@ -12,7 +12,7 @@
                 const { user } = await response.json()
                 userId.set(user.id)
                 await set({ userId: user.id })
-                location.navigate(ROUTES.classes)
+                location.navigate(ROUTES.sections)
             }
         } catch(err) {
             error = 'Uh oh; there was an problem logging in! Try again.'
