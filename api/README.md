@@ -14,16 +14,16 @@ sh drop-create.sh
 
 - Users
 - Students
-- Classes
+- Sections
 - Seats
 
 ### Relationships
 
 - A user has many students
-- A user has many classes
-- A student has many classes
-- A class has many students
-- A seat associates a student with a class
+- A user has many sections
+- A student has many sections
+- A section has many students
+- A seat associates a student with a section
 
 ## Responses
 
@@ -31,8 +31,8 @@ sh drop-create.sh
 
 When an operation returns data, the top-level response key should be a logical name for the data. For example, a `GET` request to `/students` should return a JSON blob with a key `"students"`.
 
-Otherwise, endpoints responde with `"success": true`.
+Otherwise, endpoints respond with `"success": true`.
 
 ### Fail
 
-The response should include the error message.
+The response should include an error status, `"success": false`, and a key with the error.
