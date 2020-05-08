@@ -29,3 +29,9 @@ The React client for Fin
 - [ ] Add student
 - [ ] Remove student
 - [ ] Rename student
+
+## Picker
+
+- [ ] View current student
+- [ ] Next student
+- [ ] Prev student
