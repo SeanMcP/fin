@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.ScreenLayout header {
+  border-bottom: 1px solid gray;
+}
+
+.ScreenLayout header .content {
+  display: flex;
+}
+
+.ScreenLayout header nav {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.ScreenLayout header nav a {
+  margin-right: 0.5rem;
+}
+
+.content {
+  padding: 1rem;
+  margin: 0 auto;
+  max-width: 40rem;
+  width: 100%;
+}
