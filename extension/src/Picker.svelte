@@ -1,32 +1,72 @@
 <script>
-    import { currentSectionId, currentIndex, currentList } from './stores'
+    import { onMount } from 'svelte'
+    import shuffle from 'array-shuffle'
+    import { sectionId } from './stores'
+    import { set, get } from './storage'
 
-    async function getStudents() {
-        const response = await fetch(`http://localhost:3031/ext/students/section/${$currentSectionId}`)
+    let index = 0, list = []
 
-        if (response.ok) {
-            const { students } = await response.json()
-            currentList.set(students)
-            return Promise.resolve(true)
-        } else {
-            return new Error('Error fetching students')
+    async function decrement() {
+        const body = {}
+        let next = index - 1
+        if (next <= 0) {
+          next = list.length - 1
+          body.list = shuffleList()
         }
+        body.index = next
+        index = next
+        await set(body)
     }
 
-    const promise = getStudents()
+    async function increment() {
+        const body = {}
+        let next = index + 1
+        if (next >= list.length) {
+          next = 0
+          body.list = shuffleList()
+        }
+        body.index = next
+        index = next
+        await set(body)
+    }
+
+    function shuffleList() {
+        const next = shuffle(list)
+        list = next
+        return next
+    }
+
+    onMount(async () => {
+        const result = await get(['index', 'list'])
+        console.debug('result', result)
+        if (result.index != null && result.list) {
+            index = result.index
+            list = result.list
+        } else {
+            const response = await fetch(`http://localhost:3031/ext/students/section/${$sectionId}`)
+
+            if (response.ok) {
+                console.debug('response', response)
+                const { students } = await response.json()
+                const shuffled = shuffle(students)
+                await set({ index, list: shuffled })
+                list = shuffled
+            } else {
+                console.error('Error fetching students for section', $sectionId)
+            }
+        }
+    })
 </script>
 
-{#await promise}
-    <p>Loading...</p>
-{:then}
-    <p>{$currentList[$currentIndex].name}</p>
+{#if list.length > 0}
+    <p>{list[index].name}</p>
     <div class="button-container">
-        <button on:click={currentIndex.decrement}>Back</button>
-        <button on:click={currentIndex.increment}>Next</button>
+        <button on:click={decrement}>Back</button>
+        <button on:click={increment}>Next</button>
     </div>
-{:catch error}
-    <p>Error: {JSON.stringify(error, null, 2)}</p>
-{/await}
+{:else}
+    <p>Loading...</p>
+{/if}
 
 <style>
     .button-container {
