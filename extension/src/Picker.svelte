@@ -17,7 +17,7 @@
         let next = index - 1
         if (next <= 0) {
           next = list.length - 1
-          body.list = shuffleList()
+          body.list = updateList()
         }
         body.index = next
         index = next
@@ -29,15 +29,15 @@
         let next = index + 1
         if (next >= list.length) {
           next = 0
-          body.list = shuffleList()
+          body.list = updateList()
         }
         body.index = next
         index = next
         await set(body)
     }
 
-    function shuffleList() {
-        const next = shuffle(list)
+    function updateList(array = list) {
+        const next = shuffle(array)
         list = next
         return next
     }
@@ -52,11 +52,8 @@
             const response = await fetch(`http://localhost:3031/ext/students/section/${$sectionId}`)
 
             if (response.ok) {
-                console.debug('response', response)
                 const { students } = await response.json()
-                const shuffled = shuffle(students)
-                await set({ index, list: shuffled })
-                list = shuffled
+                await set({ index, list: updateList(students) })
             } else {
                 console.error('Error fetching students for section', $sectionId)
             }
