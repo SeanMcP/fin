@@ -4,9 +4,19 @@ const isChrome = typeof chrome !== 'undefined'
 export function get(keyArray) {
   if (isChrome) {
     return new Promise((resolve) => {
-      chrome.storage.local.get(keyArray, (result) => {
-        resolve(result)
-      })
+      chrome.storage.local.get(keyArray, resolve)
+    })
+  }
+}
+
+/**
+ * Removes keys from storage (async)
+ * @param {string[]} keyArray - A list of keys that will be removed from storage
+ * */
+export function remove(keyArray) {
+  if (isChrome) {
+    return new Promise((resolve) => {
+      chrome.storage.local.remove(keyArray, resolve)
     })
   }
 }
@@ -15,9 +25,7 @@ export function get(keyArray) {
 export function set(updateObject) {
   if (isChrome) {
     return new Promise((resolve) => {
-      chrome.storage.local.set(updateObject, (result) => {
-        resolve(result)
-      })
+      chrome.storage.local.set(updateObject, resolve)
     })
   }
 }
