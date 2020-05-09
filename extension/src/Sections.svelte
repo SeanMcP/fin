@@ -1,5 +1,5 @@
 <script>
-    import { currentSectionId, location, userId } from './stores'
+    import { sectionId, location, userId } from './stores'
     import { ROUTES } from './routes'
     import { set } from './storage'
 
@@ -17,8 +17,8 @@
 
     function _clickHandler(id) {
         return async () => {
-            await set({ currentSectionId: id })
-            currentSectionId.set(id)
+            await set({ sectionId: id })
+            sectionId.set(id)
             location.navigate(ROUTES.picker)
         }
     }

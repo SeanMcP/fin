@@ -4,7 +4,7 @@
 	import LogIn from './LogIn.svelte'
 	import Picker from './Picker.svelte'
 	import { ROUTES } from './routes'
-	import { currentIndex, currentList, location, userId } from './stores'
+	import { location, sectionId, userId } from './stores'
 	import { get } from './storage'
 
 	const router = {
@@ -14,16 +14,15 @@
 	}
 
 	onMount(async () => {
-		const result = await get(['currentIndex', 'currentList', 'userId'])
+		const result = await get(['index', 'list', 'sectionId', 'userId'])
 
 		// Hydrate store with values from storage
-		if (result.currentIndex) currentIndex.set(result.currentIndex)
-		if (result.currentList) currentList.set(result.currentList)
+		if (result.sectionId) sectionId.set(result.sectionId)
 		if (result.userId) userId.set(result.userId)
 
 		// If there are stored values for index and list, then the user
 		// was previously in the picker mode. Send them back.
-		if (result.currentIndex && result.currentList) {
+		if (result.index != null && result.list && result.sectionId) {
 			location.navigate(ROUTES.picker)
 		// If they are logged in, send them to the sections page.
 		} else if (result.userId) {
