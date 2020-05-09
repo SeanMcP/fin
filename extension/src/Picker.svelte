@@ -1,10 +1,16 @@
 <script>
     import { onMount } from 'svelte'
     import shuffle from 'array-shuffle'
-    import { sectionId } from './stores'
-    import { set, get } from './storage'
+    import { sectionId, location } from './stores'
+    import { set, get, remove } from './storage'
+    import { ROUTES } from './routes'
 
     let index = 0, list = []
+
+    async function handleBack() {
+        await remove(['index', 'list'])
+        location.navigate(ROUTES.sections)
+    }
 
     async function decrement() {
         const body = {}
@@ -57,6 +63,8 @@
         }
     })
 </script>
+
+<button on:click={handleBack}>Back</button>
 
 {#if list.length > 0}
     <p>{list[index].name}</p>
