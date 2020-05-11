@@ -1,0 +1,25 @@
+.label {
+  display: grid;
+  gap: 0.5rem;
+}
+
+// The first child of .label is the label
+// Usually this will be a span
+.label > *:first-child {
+  font-weight: bold;
+}
+
+.button,
+.label input {
+  padding: 0.5rem;
+}
+
+.button,
+.label input {
+  border-radius: 0.25rem;
+}
+
+.button {
+  --color: hsl(212, 50%, 50%);
+  border: 1px solid var(--color);
+}
