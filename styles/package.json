@@ -2,6 +2,14 @@
   "name": "styles",
   "version": "0.0.0",
   "files": [
-    "index.css"
-  ]
+    "bundle.css",
+    "bundle.css.map"
+  ],
+  "scripts": {
+    "build": "sass styles.scss bundle.css",
+    "start": "sass --watch styles.scss bundle.css"
+  },
+  "devDependencies": {
+    "sass": "^1.26.5"
+  }
 }
