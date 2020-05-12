@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte'
     import shuffle from 'array-shuffle'
-    import { sectionId, location } from './stores'
+    import { location } from './stores'
     import { set, get, remove } from './storage'
     import { ROUTES } from './routes'
 
@@ -9,7 +9,7 @@
 
     async function handleBack() {
         await remove(['index', 'list'])
-        location.navigate(ROUTES.sections)
+        location.navigate(ROUTES.section)
     }
 
     async function decrement() {
@@ -43,20 +43,17 @@
     }
 
     onMount(async () => {
-        const result = await get(['index', 'list'])
-        console.debug('result', result)
+        const result = await get(['index', 'list', 'students'])
+
+        // Progress stored: update local values
         if (result.index != null && result.list) {
             index = result.index
             list = result.list
+        // New game: start from scratch
+        } else if (result.students) {
+            await set({ index, list: updateList(result.students) })
         } else {
-            const response = await fetch(`http://localhost:3031/ext/students/section/${$sectionId}`)
-
-            if (response.ok) {
-                const { students } = await response.json()
-                await set({ index, list: updateList(students) })
-            } else {
-                console.error('Error fetching students for section', $sectionId)
-            }
+            // TODO: Handle this case; navigate?
         }
     })
 </script>
