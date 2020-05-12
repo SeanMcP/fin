@@ -5,7 +5,7 @@
 	import Section from './Section.svelte'
 	import Sections from './Sections.svelte'
 	import { ROUTES } from './routes'
-	import { location, userId } from './stores'
+	import { location } from './stores'
 	import { get } from './storage'
 
 	const router = {
@@ -17,9 +17,6 @@
 
 	onMount(async () => {
 		const result = await get(['index', 'list', 'section', 'userId'])
-
-		// Hydrate store with values from storage
-		if (result.userId) userId.set(result.userId)
 
 		// If there are stored values for index and list, then the user
 		// was previously in the picker mode. Send them back.

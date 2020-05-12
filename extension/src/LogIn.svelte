@@ -1,6 +1,6 @@
 <script>
     import { ROUTES } from './routes'
-    import { location, userId } from './stores'
+    import { location } from './stores'
     import { set } from './storage'
     let error, email = 'chuck@testa.com', password = 'nope'
 
@@ -10,7 +10,6 @@
     
             if (response.ok) {
                 const { user } = await response.json()
-                userId.set(user.id)
                 await set({ userId: user.id })
                 location.navigate(ROUTES.sections)
             }

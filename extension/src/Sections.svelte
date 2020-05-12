@@ -1,12 +1,13 @@
 <script>
-    import { location, userId } from './stores'
+    import { location } from './stores'
     import { ROUTES } from './routes'
-    import { set } from './storage'
+    import { get, set } from './storage'
 
     const promise = getSections()
 
     async function getSections() {
-        const response = await fetch(`http://localhost:3031/ext/sections/${$userId}`)
+        const { userId } = await get(['userId'])
+        const response = await fetch(`http://localhost:3031/ext/sections/${userId}`)
 
         if (response.ok) {
             return await response.json()
