@@ -2,9 +2,14 @@
     import { onMount } from 'svelte'
     import { location } from './stores'
     import { ROUTES } from './routes'
-    import { get, set } from './storage'
+    import { get, set, remove } from './storage'
 
     let sectionName = ''
+
+    async function handleBack() {
+        await remove(['section'])
+        location.navigate(ROUTES.sections)
+    }
 
     onMount(async () => {
         const { section: { id, name } } = await get(['section'])
@@ -21,5 +26,6 @@
     })
 </script>
 
+<button on:click={handleBack}>Back</button>
 <h2>{sectionName}</h2>
 <button on:click={() => location.navigate(ROUTES.picker)}>Picker</button>
