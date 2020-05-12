@@ -1,5 +1,5 @@
 <script>
-    import { sectionId, location, userId } from './stores'
+    import { location, userId } from './stores'
     import { ROUTES } from './routes'
     import { set } from './storage'
 
@@ -15,11 +15,10 @@
         }
     }
 
-    function _clickHandler(id) {
+    function _clickHandler(section) {
         return async () => {
-            await set({ sectionId: id })
-            sectionId.set(id)
-            location.navigate(ROUTES.picker)
+            await set({ section })
+            location.navigate(ROUTES.section)
         }
     }
 </script>
@@ -28,8 +27,8 @@
     <p>Loading...</p>
 {:then { sections }}
     <ul>
-    {#each sections as { name, id } (id)}
-        <li><button on:click={_clickHandler(id)}>{name}</button></li>
+    {#each sections as section (section.id)}
+        <li><button on:click={_clickHandler(section)}>{section.name}</button></li>
     {/each}
     </ul>
 {:catch error}

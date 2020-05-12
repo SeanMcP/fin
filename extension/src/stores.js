@@ -13,5 +13,3 @@ function createLocation() {
 export const location = createLocation()
 
 export const userId = writable('')
-
-export const sectionId = writable('')
