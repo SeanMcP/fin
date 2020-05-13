@@ -1,2 +1,13 @@
 @use "element";
 @use "form";
+
+:root {
+  --primary-hue: 212;
+  --primary-saturation: 90%;
+  --primary-lightness: 48%;
+  --primary: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    var(--primary-lightness)
+  );
+}

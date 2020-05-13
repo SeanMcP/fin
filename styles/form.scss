@@ -11,15 +11,47 @@
 
 .button,
 .label input {
-  padding: 0.5rem;
+  padding: 0.65rem;
 }
 
 .button,
 .label input {
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
 }
 
 .button {
-  --color: hsl(212, 50%, 50%);
-  border: 1px solid var(--color);
+  --light-color: hsl(212, 80%, 40%);
+  --dark-color: hsl(212, 80%, 32%);
+  --background: var(--light-color);
+  --text-color: white;
+  background: var(--background);
+  border: 2px solid var(--dark-color);
+  color: var(--text-color);
+  font-weight: bold;
+
+  &:not([disabled]) {
+    &:focus,
+    &:hover {
+      --background: var(--dark-color);
+    }
+  }
+
+  &[disabled] {
+    --text-color: hsla(0, 100%, 100%, 75%);
+  }
+}
+
+.form {
+  --gap: 0.75rem;
+  display: grid;
+  gap: var(--gap);
+
+  &__footer {
+    display: flex;
+    justify-content: end;
+
+    * + * {
+      margin-left: var(--gap);
+    }
+  }
 }

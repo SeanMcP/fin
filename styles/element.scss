@@ -13,10 +13,12 @@ body {
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 1.25rem;
 }
 
 a {
-  color: rgb(0, 100, 200);
+  --color: var(--primary);
+  color: var(--primary);
   text-decoration: none;
 
   &:hover {
@@ -24,7 +26,11 @@ a {
   }
 
   &:visited {
-    color: rgb(0, 80, 160);
+    --color: hsl(
+      var(--primary-hue),
+      var(--primary-saturation),
+      calc(var(--primary-lightness) - 10%)
+    );
   }
 }
 
@@ -32,36 +38,8 @@ input,
 button,
 select,
 textarea {
-  border: 1px solid gray;
+  border: 1px solid hsl(0, 0%, 75%);
   box-sizing: border-box;
   font-family: inherit;
   font-size: inherit;
-}
-
-input {
-  &:disabled {
-    color: #ccc;
-  }
-
-  &[type='range'] {
-    height: 0;
-  }
-}
-
-button {
-  color: #333;
-  background-color: #f4f4f4;
-  outline: none;
-
-  &:disabled {
-    color: #999;
-  }
-
-  &:not(:disabled):active {
-    background-color: #ddd;
-  }
-
-  &:focus {
-    border-color: #666;
-  }
 }
