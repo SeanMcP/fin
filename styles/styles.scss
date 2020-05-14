@@ -1,4 +1,5 @@
 @use "element";
+@use "card";
 @use "form";
 
 :root {
@@ -10,5 +11,11 @@
     var(--primary-saturation),
     var(--primary-lightness)
   );
+
+  --border-color: hsl(0, 0%, 85%);
+  --border: 1px solid var(--border-color);
   --text-color: hsl(0, 0%, 20%);
+  --soft-shadow: 0 2px 4px hsla(0, 0%, 0%, 0.1);
+  --border-radius-small: 4px;
+  --border-radius-large: 8px;
 }

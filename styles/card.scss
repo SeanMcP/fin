@@ -1,0 +1,11 @@
+.card {
+  border: var(--border);
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--soft-shadow);
+  padding: 1.5rem;
+
+  > *:first-child {
+    line-height: 1em;
+    margin-top: 0;
+  }
+}
