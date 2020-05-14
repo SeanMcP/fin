@@ -11,12 +11,8 @@
 
 .button,
 .label input {
-  padding: 0.65rem;
-}
-
-.button,
-.label input {
-  border-radius: 0.5rem;
+  border-radius: 4px;
+  padding: 0.5rem;
 }
 
 .button {
@@ -25,9 +21,11 @@
   --background: var(--light-color);
   --text-color: white;
   background: var(--background);
-  border: 2px solid var(--dark-color);
+  border: none;
   color: var(--text-color);
   font-weight: bold;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 
   &:not([disabled]) {
     &:focus,
@@ -42,7 +40,7 @@
 }
 
 .form {
-  --gap: 0.75rem;
+  --gap: 1rem;
   display: grid;
   gap: var(--gap);
 
