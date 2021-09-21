@@ -35,3 +35,17 @@
 {:catch error}
     <p>Error: {JSON.stringify(error, null, 2)}</p>
 {/await}
+
+<style>
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    button {
+        display: block;
+        text-align: left;
+        width: 100%;
+        padding: 1rem;
+    }
+</style>

@@ -1,0 +1,140 @@
+html,
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  color: var(--text-color);
+  margin: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.25rem;
+}
+
+a {
+  --color: var(--primary);
+  color: var(--primary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:visited {
+  --color: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    calc(var(--primary-lightness) - 10%)
+  );
+}
+
+input,
+button,
+select,
+textarea {
+  border: 1px solid #bfbfbf;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input {
+  box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.1);
+}
+input:focus {
+  box-shadow: 0 0 4px var(--primary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 1rem;
+  margin-top: 1em;
+}
+
+p {
+  line-height: 1.5;
+}
+
+.card {
+  border: var(--border);
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--soft-shadow);
+  padding: 1.5rem;
+}
+.card > *:first-child {
+  line-height: 1em;
+  margin-top: 0;
+}
+
+.label {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.label > *:first-child {
+  font-weight: bold;
+}
+
+.button,
+.label input {
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.button {
+  --light-color: hsl(212, 80%, 40%);
+  --dark-color: hsl(212, 80%, 32%);
+  --background: var(--light-color);
+  --text-color: white;
+  background: var(--background);
+  border: none;
+  color: var(--text-color);
+  font-weight: bold;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+.button:not([disabled]):focus, .button:not([disabled]):hover {
+  --background: var(--dark-color);
+}
+.button[disabled] {
+  --text-color: hsla(0, 100%, 100%, 75%);
+}
+
+.form {
+  --gap: 1rem;
+  display: grid;
+  gap: var(--gap);
+}
+.form__footer {
+  display: flex;
+  justify-content: end;
+}
+.form__footer * + * {
+  margin-left: var(--gap);
+}
+
+:root {
+  --primary-hue: 212;
+  --primary-saturation: 90%;
+  --primary-lightness: 48%;
+  --primary: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    var(--primary-lightness)
+  );
+  --border-color: hsl(0, 0%, 85%);
+  --border: 1px solid var(--border-color);
+  --text-color: hsl(0, 0%, 20%);
+  --soft-shadow: 0 2px 4px hsla(0, 0%, 0%, 0.1);
+  --border-radius-small: 4px;
+  --border-radius-large: 8px;
+}
+
+/*# sourceMappingURL=bundle.css.map */
